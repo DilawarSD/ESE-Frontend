@@ -134,7 +134,7 @@ export default function Task(props) {
             }}
             className="button delete"
           >
-            X
+            Delete
           </button>
         )}
       </form>

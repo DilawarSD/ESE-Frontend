@@ -35,7 +35,7 @@ export default function StatusLine(props) {
       <h3>{status}</h3>
       {taskList}
       <button onClick={handleAddEmpty} className="button addTask">
-        add
+        Add
       </button>
     </div>
   );
