@@ -104,6 +104,14 @@ function App() {
             addTask={addTask}
             deleteTask={deleteTask}
             moveTask={moveTask}
+            status="Ready"
+          />
+          <StatusLine
+            tasks={tasks}
+            addEmptyTask={addEmptyTask}
+            addTask={addTask}
+            deleteTask={deleteTask}
+            moveTask={moveTask}
             status="In Progress"
           />
           <StatusLine

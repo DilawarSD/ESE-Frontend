@@ -31,11 +31,11 @@ export default function StatusLine(props) {
   }
 
   return (
-    <div className="statusLine">
+    <div>
       <h3>{status}</h3>
       {taskList}
       <button onClick={handleAddEmpty} className="button addTask">
-        Add
+        +
       </button>
     </div>
   );
