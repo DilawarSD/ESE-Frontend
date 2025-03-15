@@ -40,10 +40,12 @@ export default function Task(props) {
   function handleMoveLeft() {
     let newStatus = "";
 
-    if (task.status === "In Progress") {
-      newStatus = "Backlog";
-    } else if (task.status === "Done") {
+    if (task.status === "Done") {
       newStatus = "In Progress";
+    } else if (task.status === "In Progress") {
+      newStatus = "Ready";
+    } else if (task.status === "Ready") {
+      newStatus = "Backlog";
     }
 
     if (newStatus !== "") {
@@ -55,6 +57,8 @@ export default function Task(props) {
     let newStatus = "";
 
     if (task.status === "Backlog") {
+      newStatus = "Ready";
+    } else if (task.status === "Ready") {
       newStatus = "In Progress";
     } else if (task.status === "In Progress") {
       newStatus = "Done";
@@ -67,7 +71,7 @@ export default function Task(props) {
 
   return (
     <div className={`task ${collapsed ? "collapsedTask" : ""}`}>
-      <button onClick={handleMoveLeft} className="button moveTask">
+      <button className="leftmoveTask" onClick={handleMoveLeft}>
         &#171;
       </button>
       <form onSubmit={handleSubmit} className={collapsed ? "collapsed" : ""}>
@@ -123,7 +127,7 @@ export default function Task(props) {
           onClick={() => {
             setFormAction("save");
           }}
-          className="button"
+          className="button save"
         >
           {collapsed ? "Edit" : "Save"}
         </button>
@@ -138,7 +142,7 @@ export default function Task(props) {
           </button>
         )}
       </form>
-      <button onClick={handleMoveRight} className="button moveTask">
+      <button onClick={handleMoveRight} className="moveTask">
         &#187;
       </button>
     </div>

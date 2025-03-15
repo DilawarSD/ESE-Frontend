@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import Task from "../../../src/app/components/Task"; // Adjust the import path as necessary
+import Task from "../../../src/app/components/Task";
 
 describe("Task Component", () => {
   let mockTask, mockAddTask, mockDeleteTask, mockMoveTask;
@@ -79,7 +79,7 @@ describe("Task Component", () => {
       />
     );
 
-    fireEvent.click(screen.getByText("»")); // Right arrow button
+    fireEvent.click(screen.getByText("»"));
     expect(mockMoveTask).toHaveBeenCalledWith("1", "Done");
   });
 
