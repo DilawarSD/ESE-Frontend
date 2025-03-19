@@ -1,12 +1,12 @@
 import React from "react";
 
-import App from "../components/App";
+import Backlog from "../components/Backlog";
 
 export default function CreatePostPage() {
   return (
     <div>
       <main>
-        <App />
+        <Backlog />
       </main>
     </div>
   );
