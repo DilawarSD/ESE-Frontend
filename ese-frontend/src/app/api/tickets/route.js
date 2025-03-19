@@ -88,3 +88,33 @@ export async function PUT(req) {
     );
   }
 }
+
+// DELETE method
+export async function DELETE(req) {
+  try {
+    const ticketData = await req.json();
+    const { id } = ticketData;
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/tickets-posts`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({ id }),
+      }
+    );
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error deleting ticket:", error);
+    return NextResponse.json(
+      { error: "Failed to delete ticket" },
+      { status: 500 }
+    );
+  }
+}
