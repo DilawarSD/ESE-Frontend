@@ -56,5 +56,27 @@ export async function updateTicket(ticketId, updatedData) {
     return null;
   }
 }
+// Function to delete a ticket (DELETE request)
+export async function deleteTicket(ticketId) {
+  try {
+    const response = await fetch(`/api/tickets`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: ticketId }), // Send the ID of the ticket to delete
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete ticket");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error deleting ticket:", error);
+    return null;
+  }
+}
 
 export default getTickets;

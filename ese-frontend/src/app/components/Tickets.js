@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import getTickets, { addTicket, updateTicket } from "../../lib/server";
+import getTickets, {
+  addTicket,
+  updateTicket,
+  deleteTicket,
+} from "../../lib/server";
 
 const Tickets = () => {
   const [tickets, setTickets] = useState([]);
@@ -69,6 +73,22 @@ const Tickets = () => {
     });
   };
 
+  const handleDelete = async (ticketId) => {
+    try {
+      const result = await deleteTicket(ticketId);
+      if (result?.success) {
+        // Remove the deleted ticket from the state
+        setTickets(tickets.filter((ticket) => ticket.id !== ticketId));
+      } else {
+        console.error("Failed to delete ticket");
+        setError("Failed to delete ticket");
+      }
+    } catch (error) {
+      console.error("Error deleting ticket:", error);
+      setError("Error deleting ticket");
+    }
+  };
+
   return (
     <div>
       <h1>Tickets</h1>
@@ -105,6 +125,7 @@ const Tickets = () => {
             <h1>{ticket.column_name}</h1>
             <h3>{ticket.column_tasks}</h3>
             <button onClick={() => handleEdit(ticket)}>Edit</button>
+            <button onClick={() => handleDelete(ticket.id)}>Delete</button>
           </div>
         ))}
       </div>
