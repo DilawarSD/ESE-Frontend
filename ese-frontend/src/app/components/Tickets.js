@@ -1,24 +1,22 @@
-"use client"; // This ensures that the file is treated as a client-side component in Next.js or similar setups
+"use client";
 
 import React, { useState, useEffect } from "react";
 import getTickets from "../../lib/server";
 
 const Tickets = () => {
-  const [tickets, setTickets] = useState([]); // Ensure tickets is always an array
+  const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
     async function fetchTickets() {
       try {
         const data = await getTickets();
 
-        // Log the data to verify its structure
         console.log("Fetched tickets data:", data);
 
-        // Ensure data.fetched is an array before setting it to state
-        setTickets(Array.isArray(data.fetched) ? data.fetched : []); // Access data.fetched
+        setTickets(Array.isArray(data.fetched) ? data.fetched : []);
       } catch (error) {
         console.error("Error fetching tickets:", error);
-        setTickets([]); // In case of error, fallback to empty array
+        setTickets([]);
       }
     }
 
@@ -28,7 +26,6 @@ const Tickets = () => {
   return (
     <div>
       <div>
-        {/* Safely map over tickets (which is guaranteed to be an array now) */}
         {tickets.length > 0 ? (
           tickets.map((ticket) => (
             <div key={ticket.id}>
@@ -37,7 +34,7 @@ const Tickets = () => {
             </div>
           ))
         ) : (
-          <p>no tickets available</p> // Show fallback message if tickets is empty
+          <p>no tickets available</p>
         )}
       </div>
     </div>
