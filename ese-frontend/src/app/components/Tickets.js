@@ -77,7 +77,6 @@ const Tickets = () => {
     try {
       const result = await deleteTicket(ticketId);
       if (result?.success) {
-        // Remove the deleted ticket from the state
         setTickets(tickets.filter((ticket) => ticket.id !== ticketId));
       } else {
         console.error("Failed to delete ticket");
@@ -93,10 +92,8 @@ const Tickets = () => {
     <div>
       <h1>Tickets</h1>
 
-      {/* Error Message */}
       {error && <div style={{ color: "red" }}>{error}</div>}
 
-      {/* Form to Add or Edit Tickets */}
       <form onSubmit={handleSubmit}>
         <input
           type="text"

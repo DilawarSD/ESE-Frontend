@@ -1,3 +1,15 @@
+// Function to get the list of users (GET request)
+export async function getUsers() {
+  try {
+    const response = await fetch("/api/users");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return [];
+  }
+}
+
 // Function to get the list of tickets (GET request)
 export async function getTickets() {
   try {
