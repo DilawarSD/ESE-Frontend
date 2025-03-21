@@ -89,15 +89,16 @@ const Tickets = () => {
   };
 
   return (
-    <div>
-      <h1>Tickets</h1>
+    <div className="kanban-container">
+      <h1>Kanban Backlog</h1>
 
       {error && <div style={{ color: "red" }}>{error}</div>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="ticket-form">
         <input
           type="text"
-          placeholder="Column Name"
+          placeholder="Title"
+          className="Title"
           value={newTicket.column_name}
           onChange={(e) =>
             setNewTicket({ ...newTicket, column_name: e.target.value })
@@ -105,26 +106,48 @@ const Tickets = () => {
         />
         <input
           type="text"
-          placeholder="Column Tasks"
+          placeholder="Tasks"
+          className="Tasks"
           value={newTicket.column_tasks}
           onChange={(e) =>
             setNewTicket({ ...newTicket, column_tasks: e.target.value })
           }
         />
-        <button type="submit">
+        <button className="add-ticket" type="submit">
           {editingTicket ? "Update Ticket" : "Add Ticket"}
         </button>
       </form>
 
-      <div>
-        {tickets.map((ticket, index) => (
-          <div key={ticket.id || index}>
-            <h1>{ticket.column_name}</h1>
-            <h3>{ticket.column_tasks}</h3>
-            <button onClick={() => handleEdit(ticket)}>Edit</button>
-            <button onClick={() => handleDelete(ticket.id)}>Delete</button>
+      <div className="kanban-board">
+        <div className="kanban-column">
+          <h2 className="backlog-text">Backlog</h2>
+          <div className="kanban-tickets">
+            {tickets.length === 0 ? (
+              <p>No tickets available in the backlog.</p>
+            ) : (
+              tickets.map((ticket, index) => (
+                <div key={ticket.id || index} className="ticket-card">
+                  <h3>{ticket.column_name}</h3>
+                  <p>{ticket.column_tasks}</p>
+                  <div className="ticket-actions">
+                    <button
+                      className="edit-button"
+                      onClick={() => handleEdit(ticket)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDelete(ticket.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

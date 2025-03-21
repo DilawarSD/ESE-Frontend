@@ -26,7 +26,9 @@ const Dashboard = () => {
       {user ? (
         <>
           <h2>Welcome, {user.email}!</h2>
-          <button onClick={handleSignOut}>Sign Out</button>
+          <button className="sign-out" onClick={handleSignOut}>
+            Sign Out
+          </button>
         </>
       ) : (
         <h2>Loading...</h2>

@@ -8,7 +8,7 @@ import Dashboard from "../components/Dashboard";
 const Task = () => {
   return (
     <div>
-      <h1>Fetched Data from Backend</h1>
+      <h1 className="task-management">Task Management</h1>
       <Tickets />
       <User />
       <Dashboard />
