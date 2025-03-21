@@ -32,15 +32,16 @@ const Auth = () => {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h2>{isSignUp ? "Sign Up" : "Sign In"}</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="auth-form">
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="auth-input"
         />
         <br />
         <input
@@ -49,14 +50,20 @@ const Auth = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="auth-input"
         />
         <br />
-        <button type="submit">{isSignUp ? "Sign Up" : "Sign In"}</button>
+        <button type="submit" className="auth-button">
+          {isSignUp ? "Sign Up" : "Sign In"}
+        </button>
       </form>
-      {message && <p style={{ color: "red" }}>{message}</p>}
-      <p>
+      {message && <p className="auth-message">{message}</p>}
+      <p className="auth-toggle">
         {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-        <button onClick={() => setIsSignUp(!isSignUp)}>
+        <button
+          onClick={() => setIsSignUp(!isSignUp)}
+          className="toggle-button"
+        >
           {isSignUp ? "Sign In" : "Sign Up"}
         </button>
       </p>
