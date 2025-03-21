@@ -1,16 +1,17 @@
 "use client";
 
 import React from "react";
-import Tickets from "../app/components/Tickets";
-import User from "../app/components/User";
-const App = () => {
+
+import Sign from "../app/components/Sign";
+
+const Home = () => {
   return (
     <div>
-      <h1>Fetched Data from Backend</h1>
-      <Tickets />
-      <User />
+      <h1>Sign in</h1>
+
+      <Sign />
     </div>
   );
 };
 
-export default App;
+export default Home;
