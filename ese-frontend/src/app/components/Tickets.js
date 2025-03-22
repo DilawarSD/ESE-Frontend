@@ -12,6 +12,7 @@ const Tickets = () => {
   const [newTicket, setNewTicket] = useState({
     column_name: "",
     column_tasks: "",
+    status: "backlog",
   });
   const [editingTicket, setEditingTicket] = useState(null);
   const [error, setError] = useState("");
@@ -57,7 +58,7 @@ const Tickets = () => {
           setTickets((prevTickets) => [...prevTickets, addedTicket]);
         }
       }
-      setNewTicket({ column_name: "", column_tasks: "" });
+      setNewTicket({ column_name: "", column_tasks: "", status: "backlog" });
     } catch (err) {
       console.error("Error submitting ticket:", err);
       setError("Error submitting ticket");
@@ -70,6 +71,7 @@ const Tickets = () => {
     setNewTicket({
       column_name: ticket.column_name,
       column_tasks: ticket.column_tasks,
+      status: ticket.status,
     });
   };
 
@@ -119,35 +121,49 @@ const Tickets = () => {
       </form>
 
       <div className="kanban-board">
-        <div className="kanban-column">
-          <h2 className="backlog-text">Backlog</h2>
-          <div className="kanban-tickets">
-            {tickets.length === 0 ? (
-              <p>No tickets available in the backlog.</p>
-            ) : (
-              tickets.map((ticket, index) => (
-                <div key={ticket.id || index} className="ticket-card">
-                  <h3>{ticket.column_name}</h3>
-                  <p>{ticket.column_tasks}</p>
-                  <div className="ticket-actions">
-                    <button
-                      className="edit-button"
-                      onClick={() => handleEdit(ticket)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDelete(ticket.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))
-            )}
+        {["backlog", "in-progress", "done"].map((status) => (
+          <div key={status} className="kanban-column">
+            <h2 className="backlog-text">
+              {status.replace("-", " ").toUpperCase()}
+            </h2>
+            <div className="kanban-tickets">
+              {tickets.filter(
+                (ticket) =>
+                  ticket.status === status ||
+                  (status === "backlog" && !ticket.status)
+              ).length === 0 ? (
+                <p>No tickets available.</p>
+              ) : (
+                tickets
+                  .filter(
+                    (ticket) =>
+                      ticket.status === status ||
+                      (status === "backlog" && !ticket.status)
+                  )
+                  .map((ticket, index) => (
+                    <div key={ticket.id || index} className="ticket-card">
+                      <h3>{ticket.column_name}</h3>
+                      <p>{ticket.column_tasks}</p>
+                      <div className="ticket-actions">
+                        <button
+                          className="edit-button"
+                          onClick={() => handleEdit(ticket)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="delete-button"
+                          onClick={() => handleDelete(ticket.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))
+              )}
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
