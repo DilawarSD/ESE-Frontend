@@ -1,42 +1,13 @@
 import React from "react";
-import Task from "./Task";
 
-export default function StatusLine(props) {
-  const { status, tasks, addTask, deleteTask, addEmptyTask, moveTask } = props;
-
-  let taskList, tasksForStatus;
-
-  function handleAddEmpty() {
-    addEmptyTask(status);
-  }
-
-  if (tasks) {
-    tasksForStatus = tasks.filter((task) => {
-      return task.status === status;
-    });
-  }
-
-  if (tasksForStatus) {
-    taskList = tasksForStatus.map((task) => {
-      return (
-        <Task
-          addTask={(task) => addTask(task)}
-          deleteTask={(id) => deleteTask(id)}
-          moveTask={(id, status) => moveTask(id, status)}
-          key={task.id}
-          task={task}
-        />
-      );
-    });
-  }
-
+const StatusLine = ({ status, onStatusChange }) => {
   return (
-    <div>
-      <h3>{status}</h3>
-      {taskList}
-      <button onClick={handleAddEmpty} className="button addTask">
-        +
-      </button>
-    </div>
+    <select value={status} onChange={(e) => onStatusChange(e.target.value)}>
+      <option value="backlog">Backlog</option>
+      <option value="in-progress">In Progress</option>
+      <option value="done">Done</option>
+    </select>
   );
-}
+};
+
+export default StatusLine;
