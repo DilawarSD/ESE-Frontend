@@ -10,7 +10,7 @@ const Task = () => {
     <div>
       <h1 className="task-management">Task Management</h1>
       <Tickets />
-      <User />
+
       <Dashboard />
     </div>
   );

@@ -3,7 +3,9 @@ import getTickets, {
   addTicket,
   updateTicket,
   deleteTicket,
+  getUsers,
 } from "../../lib/server";
+import User from "../components/User";
 
 const Tickets = () => {
   const [tickets, setTickets] = useState([]);
@@ -69,7 +71,6 @@ const Tickets = () => {
   };
 
   const handleEdit = (ticket) => {
-    console.log("Editing ticket ID:", ticket.id);
     setEditingTicket(ticket);
     setNewTicket({
       column_name: ticket.column_name,
@@ -84,12 +85,28 @@ const Tickets = () => {
       if (result?.success) {
         setTickets(tickets.filter((ticket) => ticket.id !== ticketId));
       } else {
-        console.error("Failed to delete ticket");
         setError("Failed to delete ticket");
       }
     } catch (error) {
-      console.error("Error deleting ticket:", error);
       setError("Error deleting ticket");
+    }
+  };
+
+  const handleAssignUser = async (ticketId, userId) => {
+    try {
+      const ticket = tickets.find((ticket) => ticket.id === ticketId);
+      if (ticket) {
+        ticket.userId = userId;
+        const updatedTicket = await updateTicket(ticket.id, ticket);
+        if (updatedTicket) {
+          setTickets((prevTickets) =>
+            prevTickets.map((t) => (t.id === ticket.id ? { ...t, userId } : t))
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Error assigning user to ticket:", error);
+      setError("Error assigning user to ticket");
     }
   };
 
@@ -181,15 +198,23 @@ const Tickets = () => {
             <div className="kanban-tickets">
               {tickets
                 .filter((ticket) => ticket.status === status)
-                .map((ticket, index) => (
+                .map((ticket) => (
                   <div
-                    key={ticket.id || index}
+                    key={ticket.id}
                     className="ticket-card"
                     draggable
                     onDragStart={(e) => handleDragStart(e, ticket.id)}
                   >
                     <h3>{ticket.column_name}</h3>
                     <p>{ticket.column_tasks}</p>
+
+                    {/* User dropdown */}
+                    <User
+                      ticketId={ticket.id}
+                      assignedUserId={ticket.userId}
+                      handleAssignUser={handleAssignUser}
+                    />
+
                     <div className="ticket-actions">
                       <button
                         className="edit-button"
