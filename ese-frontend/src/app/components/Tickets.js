@@ -3,9 +3,10 @@ import getTickets, {
   addTicket,
   updateTicket,
   deleteTicket,
-  getUsers,
 } from "../../lib/server";
-import User from "../components/User";
+import TicketForm from "../components/TicketForm";
+import KanbanBoard from "../components/KanbanBoard";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Tickets = () => {
   const [tickets, setTickets] = useState([]);
@@ -127,7 +128,6 @@ const Tickets = () => {
     if (movedTicket && movedTicket.status !== newStatus) {
       movedTicket.status = newStatus;
 
-      // Make the API call to update the status on the server
       try {
         await updateTicket(movedTicket.id, movedTicket);
         setTickets((prevTickets) =>
@@ -145,96 +145,22 @@ const Tickets = () => {
   return (
     <div className="kanban-container">
       <h1>Kanban Board</h1>
-
-      {error && <div style={{ color: "red" }}>{error}</div>}
-
-      <form onSubmit={handleSubmit} className="ticket-form">
-        <input
-          type="text"
-          placeholder="Title"
-          className="Title"
-          value={newTicket.column_name}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, column_name: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Tasks"
-          className="Tasks"
-          value={newTicket.column_tasks}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, column_tasks: e.target.value })
-          }
-        />
-
-        <select
-          value={newTicket.status}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, status: e.target.value })
-          }
-        >
-          <option value="backlog">Backlog</option>
-          <option value="in-progress">In Progress</option>
-          <option value="done">Done</option>
-        </select>
-
-        <button className="add-ticket" type="submit">
-          {editingTicket ? "Update Ticket" : "Add Ticket"}
-        </button>
-      </form>
-
-      <div className="kanban-board">
-        {["backlog", "in-progress", "done"].map((status) => (
-          <div
-            key={status}
-            className="kanban-column"
-            onDragOver={handleDragOver}
-            onDrop={(e) => handleDrop(e, status)}
-          >
-            <h2 className="backlog-text">
-              {status.replace("-", " ").toUpperCase()}
-            </h2>
-            <div className="kanban-tickets">
-              {tickets
-                .filter((ticket) => ticket.status === status)
-                .map((ticket) => (
-                  <div
-                    key={ticket.id}
-                    className="ticket-card"
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, ticket.id)}
-                  >
-                    <h3>{ticket.column_name}</h3>
-                    <p>{ticket.column_tasks}</p>
-
-                    {/* User dropdown */}
-                    <User
-                      ticketId={ticket.id}
-                      assignedUserId={ticket.userId}
-                      handleAssignUser={handleAssignUser}
-                    />
-
-                    <div className="ticket-actions">
-                      <button
-                        className="edit-button"
-                        onClick={() => handleEdit(ticket)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="delete-button"
-                        onClick={() => handleDelete(ticket.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </div>
-        ))}
-      </div>
+      <ErrorMessage message={error} />
+      <TicketForm
+        newTicket={newTicket}
+        setNewTicket={setNewTicket}
+        handleSubmit={handleSubmit}
+        editingTicket={editingTicket}
+      />
+      <KanbanBoard
+        tickets={tickets}
+        handleDragOver={handleDragOver}
+        handleDrop={handleDrop}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        handleDragStart={handleDragStart}
+        handleAssignUser={handleAssignUser}
+      />
     </div>
   );
 };
