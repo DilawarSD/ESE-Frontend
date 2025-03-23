@@ -42,20 +42,25 @@ const Tickets = () => {
     try {
       if (editingTicket) {
         const updatedTicket = await updateTicket(editingTicket.id, newTicket);
-        if (updatedTicket) {
+
+        if (updatedTicket && updatedTicket.updated) {
           setTickets((prevTickets) =>
             prevTickets.map((ticket) =>
-              ticket.id === updatedTicket.id ? updatedTicket : ticket
+              ticket.id === editingTicket.id ? updatedTicket.updated[0] : ticket
             )
           );
-          setEditingTicket(null);
         }
+        setEditingTicket(null);
       } else {
         const addedTicket = await addTicket(newTicket);
-        if (addedTicket) {
-          setTickets((prevTickets) => [...prevTickets, addedTicket]);
+        if (addedTicket && addedTicket.inserted) {
+          setTickets((prevTickets) => [
+            ...prevTickets,
+            ...addedTicket.inserted,
+          ]);
         }
       }
+
       setNewTicket({ column_name: "", column_tasks: "", status: "backlog" });
     } catch (err) {
       console.error("Error submitting ticket:", err);
