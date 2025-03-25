@@ -3,11 +3,13 @@ import React from "react";
 const TicketForm = ({
   newTicket,
   setNewTicket,
-  handleSubmit,
+  users,
   editingTicket,
+  handleTicketSubmit,
+  handleAssignUser,
 }) => {
   return (
-    <form onSubmit={handleSubmit} className="ticket-form">
+    <form onSubmit={handleTicketSubmit} className="ticket-form">
       <input
         type="text"
         placeholder="Title"
@@ -30,11 +32,28 @@ const TicketForm = ({
         value={newTicket.status}
         onChange={(e) => setNewTicket({ ...newTicket, status: e.target.value })}
       >
-        <option value="backlog">Backlog</option>
-        <option value="in-progress">In Progress</option>
-        <option value="done">Done</option>
+        {editingTicket ? (
+          <>
+            <option value="ready">Ready</option>
+            <option value="in-progress">In Progress</option>
+            <option value="done">Done</option>
+          </>
+        ) : (
+          <option value="ready">Ready</option>
+        )}
       </select>
-      <button className="add-ticket" type="submit">
+      <select
+        value={newTicket.email}
+        onChange={(e) => handleAssignUser(newTicket.id, e.target.value)}
+      >
+        <option value="">Assign User</option>
+        {users.map((user) => (
+          <option key={user.id} value={user.email}>
+            {user.first_name} {user.last_name} ({user.email})
+          </option>
+        ))}
+      </select>
+      <button type="submit">
         {editingTicket ? "Update Ticket" : "Add Ticket"}
       </button>
     </form>

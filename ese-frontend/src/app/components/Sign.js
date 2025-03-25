@@ -7,7 +7,6 @@ const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Handle Sign In and Sign Up
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,7 +26,7 @@ const Auth = () => {
     );
 
     if (!isSignUp && !result.error) {
-      window.location.href = "/taskmanagement";
+      window.location.href = "/home";
     }
   };
 
