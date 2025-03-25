@@ -6,10 +6,10 @@ const KanbanColumn = ({
   tickets,
   handleDragOver,
   handleDrop,
-  handleEdit,
-  handleDelete,
   handleDragStart,
-  handleAssignUser,
+  handleDragEnd,
+  handleEditTicket,
+  handleDeleteTicket,
 }) => {
   return (
     <div
@@ -17,20 +17,18 @@ const KanbanColumn = ({
       onDragOver={handleDragOver}
       onDrop={(e) => handleDrop(e, status)}
     >
-      <h2 className="backlog-text">{status.replace("-", " ").toUpperCase()}</h2>
+      <h3 className="title-text">{status.replace("-", " ").toUpperCase()}</h3>
       <div className="kanban-tickets">
-        {tickets
-          .filter((ticket) => ticket.status === status)
-          .map((ticket) => (
-            <TicketCard
-              key={ticket.id}
-              ticket={ticket}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-              handleDragStart={handleDragStart}
-              handleAssignUser={handleAssignUser}
-            />
-          ))}
+        {tickets.map((ticket) => (
+          <TicketCard
+            key={ticket.id}
+            ticket={ticket}
+            handleDragStart={handleDragStart}
+            handleDragEnd={handleDragEnd}
+            handleEditTicket={handleEditTicket}
+            handleDeleteTicket={handleDeleteTicket}
+          />
+        ))}
       </div>
     </div>
   );

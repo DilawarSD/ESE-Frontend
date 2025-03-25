@@ -4,12 +4,13 @@
   font-family: Arial, sans-serif;
 }
 
+/* Parent container */
 .kanban-board {
   display: flex;
-  justify-content: flex-start;
-  margin-top: 20px;
+  justify-content: center; /* Horizontally center the columns */
 }
 
+/* Kanban column */
 .kanban-column {
   width: 300px;
   padding: 10px;
@@ -74,7 +75,7 @@
   background-color: #d32f2f;
 }
 
-.backlog-text {
+.title-text {
   color: black;
 }
 
@@ -106,7 +107,12 @@ input.Tasks:focus {
   border-radius: 5px;
   cursor: pointer;
 }
-
+.container {
+  display: flex;
+  justify-content: center; /* Horizontally center the button */
+  align-items: center; /* Vertically center the button */
+  margin-left: 130px;
+}
 /*sign-out button*/
 .sign-out {
   background-color: #4caf50;
@@ -115,6 +121,7 @@ input.Tasks:focus {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 30px;
 }
 /*Task management header */
 .task-management {
@@ -208,4 +215,23 @@ input.Tasks:focus {
 
 .toggle-button:hover {
   text-decoration: underline;
+}
+
+.Home {
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.create-tickets {
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

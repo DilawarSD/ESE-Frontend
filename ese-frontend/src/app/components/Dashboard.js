@@ -21,14 +21,35 @@ const Dashboard = () => {
     window.location.href = "/";
   };
 
+  const navigateToHome = () => {
+    window.location.href = "/home";
+  };
+
+  const navigateToCreateTickets = () => {
+    window.location.href = "/taskmanagement";
+  };
+
   return (
     <div>
       {user ? (
         <>
           <h2>Welcome, {user.email}!</h2>
-          <button className="sign-out" onClick={handleSignOut}>
-            Sign Out
-          </button>
+
+          <div className="container">
+            <button className="Home" onClick={navigateToHome}>
+              Home
+            </button>
+            <button
+              className="create-tickets"
+              onClick={navigateToCreateTickets}
+            >
+              Create Tickets
+            </button>
+
+            <button className="sign-out" onClick={handleSignOut}>
+              Sign Out
+            </button>
+          </div>
         </>
       ) : (
         <h2>Loading...</h2>

@@ -1,36 +1,32 @@
 import React from "react";
-import User from "../components/User";
 
 const TicketCard = ({
   ticket,
-  handleEdit,
-  handleDelete,
   handleDragStart,
-  handleAssignUser,
+  handleDragEnd,
+  handleEditTicket,
+  handleDeleteTicket,
 }) => {
   return (
     <div
-      key={ticket.id}
       className="ticket-card"
       draggable
-      onDragStart={(e) => handleDragStart(e, ticket.id)}
+      onDragStart={(e) => handleDragStart(e, ticket)}
+      onDragEnd={handleDragEnd}
     >
-      <h3>{ticket.column_name}</h3>
+      <h4>{ticket.column_name}</h4>
       <p>{ticket.column_tasks}</p>
-
-      <User
-        ticketId={ticket.id}
-        assignedUserId={ticket.userId}
-        handleAssignUser={handleAssignUser}
-      />
-
+      <p>Assigned to: {ticket.email || "Unassigned"}</p>
       <div className="ticket-actions">
-        <button className="edit-button" onClick={() => handleEdit(ticket)}>
+        <button
+          onClick={() => handleEditTicket(ticket)}
+          className="edit-button"
+        >
           Edit
         </button>
         <button
+          onClick={() => handleDeleteTicket(ticket.id)}
           className="delete-button"
-          onClick={() => handleDelete(ticket.id)}
         >
           Delete
         </button>
