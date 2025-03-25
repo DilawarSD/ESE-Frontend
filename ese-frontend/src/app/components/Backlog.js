@@ -6,7 +6,7 @@ import {
   deleteTicket,
   getUsers,
 } from "../../lib/server";
-import Ticket from "../components/Tickets";
+import Tickets from "../components/Tickets";
 
 const Backlog = () => {
   const [tickets, setTickets] = useState([]);
@@ -17,13 +17,7 @@ const Backlog = () => {
     status: "ready",
     email: "",
   });
-  const [newUser, setNewUser] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-  });
   const [editingTicket, setEditingTicket] = useState(null);
-  const [editingUser, setEditingUser] = useState(null);
 
   useEffect(() => {
     async function fetchTicketsAndUsers() {
@@ -31,18 +25,12 @@ const Backlog = () => {
         const ticketData = await getTickets();
         setTickets(ticketData.fetched || []);
         const userData = await getUsers();
-        if (Array.isArray(userData.fetched)) {
-          setUsers(userData.fetched);
-        } else {
-          console.error("Error: userData.fetched is not an array", userData);
-          setUsers([]);
-        }
+        setUsers(Array.isArray(userData.fetched) ? userData.fetched : []);
       } catch (error) {
         console.error("Error fetching tickets or users:", error);
         setUsers([]);
       }
     }
-
     fetchTicketsAndUsers();
   }, []);
 
@@ -74,17 +62,11 @@ const Backlog = () => {
   };
 
   const handleAssignUser = (ticketId, email) => {
-    const user = users.find((user) => user.email === email);
     const updatedTickets = tickets.map((ticket) =>
-      ticket.id === ticketId
-        ? { ...ticket, email: user ? user.email : "" }
-        : ticket
+      ticket.id === ticketId ? { ...ticket, email } : ticket
     );
     setTickets(updatedTickets);
-    setNewTicket((prevTicket) => ({
-      ...prevTicket,
-      email: user ? user.email : "",
-    }));
+    setNewTicket((prevTicket) => ({ ...prevTicket, email }));
   };
 
   const handleEditTicket = (ticket) => {
@@ -102,7 +84,6 @@ const Backlog = () => {
   return (
     <div>
       <h2 className="task-management">Backlog</h2>
-
       <form onSubmit={handleTicketSubmit} className="ticket-form">
         <input
           type="text"
@@ -156,8 +137,9 @@ const Backlog = () => {
         </button>
       </form>
 
-      <Ticket
+      <Tickets
         tickets={tickets}
+        users={users}
         handleEditTicket={handleEditTicket}
         handleDeleteTicket={handleDeleteTicket}
       />

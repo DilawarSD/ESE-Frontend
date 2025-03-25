@@ -4,6 +4,7 @@ import TicketCard from "./TicketCard";
 const KanbanColumn = ({
   status,
   tickets,
+  users,
   handleDragOver,
   handleDrop,
   handleDragStart,
@@ -23,6 +24,7 @@ const KanbanColumn = ({
           <TicketCard
             key={ticket.id}
             ticket={ticket}
+            users={users}
             handleDragStart={handleDragStart}
             handleDragEnd={handleDragEnd}
             handleEditTicket={handleEditTicket}

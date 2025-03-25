@@ -137,6 +137,7 @@ const Board = () => {
             key={status}
             status={status}
             tickets={statusTickets}
+            users={users}
             handleDragOver={handleDragOver}
             handleDrop={handleDrop}
             handleDragStart={handleDragStart}
