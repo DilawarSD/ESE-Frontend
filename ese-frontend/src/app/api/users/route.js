@@ -1,5 +1,20 @@
 import { NextResponse } from "next/server";
+import CSRF from "csrf";
 
+const csrf = new CSRF();
+
+async function validateCSRF(req) {
+  const tokenFromHeader = req.headers.get("x-csrf-token"); // Get CSRF token from request header
+
+  if (
+    !tokenFromHeader ||
+    !(await csrf.verify(process.env.CSRF_SECRET, tokenFromHeader))
+  ) {
+    return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 }); // Reject if invalid
+  }
+}
+
+// GET method
 export async function GET() {
   try {
     const response = await fetch(
@@ -14,7 +29,6 @@ export async function GET() {
     );
 
     const data = await response.json();
-
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -25,7 +39,11 @@ export async function GET() {
   }
 }
 
+// POST method
 export async function POST(req) {
+  const csrfError = await validateCSRF(req); // Validate CSRF token
+  if (csrfError) return csrfError;
+
   try {
     const body = await req.json();
     const response = await fetch(
@@ -49,7 +67,11 @@ export async function POST(req) {
   }
 }
 
+// PUT method
 export async function PUT(req) {
+  const csrfError = await validateCSRF(req); // Validate CSRF token
+  if (csrfError) return csrfError;
+
   try {
     const body = await req.json();
     const response = await fetch(
@@ -76,7 +98,11 @@ export async function PUT(req) {
   }
 }
 
+// DELETE method
 export async function DELETE(req) {
+  const csrfError = await validateCSRF(req); // Validate CSRF token
+  if (csrfError) return csrfError;
+
   try {
     const body = await req.json();
     const response = await fetch(
