@@ -165,7 +165,6 @@ const Backlog = () => {
           {editingTicket ? "Update Ticket" : "Add Ticket"}
         </button>
       </form>
-
       <Tickets
         tickets={tickets}
         users={users}
