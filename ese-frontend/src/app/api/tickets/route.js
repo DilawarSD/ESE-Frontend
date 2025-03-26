@@ -1,4 +1,18 @@
 import { NextResponse } from "next/server";
+import CSRF from "csrf";
+
+const csrf = new CSRF();
+
+async function validateCSRF(req) {
+  const tokenFromHeader = req.headers.get("x-csrf-token"); // Get CSRF token from request header
+
+  if (
+    !tokenFromHeader ||
+    !(await csrf.verify(process.env.CSRF_SECRET, tokenFromHeader))
+  ) {
+    return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 }); // Reject if invalid
+  }
+}
 
 // GET method
 export async function GET() {
@@ -27,6 +41,9 @@ export async function GET() {
 
 // POST method
 export async function POST(req) {
+  const csrfError = await validateCSRF(req); // Validate CSRF token
+  if (csrfError) return csrfError;
+
   try {
     const ticketData = await req.json();
 
@@ -54,7 +71,11 @@ export async function POST(req) {
   }
 }
 
+// PUT method
 export async function PUT(req) {
+  const csrfError = await validateCSRF(req); // Validate CSRF token
+  if (csrfError) return csrfError;
+
   try {
     const url = new URL(req.url);
     const id = url.pathname.split("/").pop(); // Extract ID from URL
@@ -91,6 +112,9 @@ export async function PUT(req) {
 
 // DELETE method
 export async function DELETE(req) {
+  const csrfError = await validateCSRF(req); // Validate CSRF token
+  if (csrfError) return csrfError;
+
   try {
     const ticketData = await req.json();
     const { id } = ticketData;

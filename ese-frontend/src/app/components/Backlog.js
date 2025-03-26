@@ -18,8 +18,20 @@ const Backlog = () => {
     email: "",
   });
   const [editingTicket, setEditingTicket] = useState(null);
+  const [csrfToken, setCsrfToken] = useState("");
 
   useEffect(() => {
+    // Fetch CSRF token on component mount
+    async function fetchCsrfToken() {
+      try {
+        const response = await fetch("/api/csrf");
+        const data = await response.json();
+        setCsrfToken(data.csrfToken);
+      } catch (error) {
+        console.error("Error fetching CSRF token:", error);
+      }
+    }
+
     async function fetchTicketsAndUsers() {
       try {
         const ticketData = await getTickets();
@@ -31,15 +43,27 @@ const Backlog = () => {
         setUsers([]);
       }
     }
-    fetchTicketsAndUsers();
+
+    fetchCsrfToken(); // Fetch CSRF token
+    fetchTicketsAndUsers(); // Fetch tickets and users
   }, []);
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
     if (!newTicket.column_name.trim()) return;
 
+    // If the CSRF token is not available yet, return
+    if (!csrfToken) {
+      console.error("CSRF token is missing");
+      return;
+    }
+
     if (editingTicket) {
-      const updatedTicket = await updateTicket(editingTicket.id, newTicket);
+      const updatedTicket = await updateTicket(
+        editingTicket.id,
+        newTicket,
+        csrfToken
+      );
       if (updatedTicket) {
         setTickets(
           tickets.map((t) => (t.id === editingTicket.id ? updatedTicket : t))
@@ -47,7 +71,7 @@ const Backlog = () => {
         setEditingTicket(null);
       }
     } else {
-      const addedTicket = await addTicket(newTicket);
+      const addedTicket = await addTicket(newTicket, csrfToken);
       if (addedTicket) {
         setTickets([...tickets, addedTicket]);
       }
@@ -75,7 +99,12 @@ const Backlog = () => {
   };
 
   const handleDeleteTicket = async (ticketId) => {
-    const success = await deleteTicket(ticketId);
+    if (!csrfToken) {
+      console.error("CSRF token is missing");
+      return;
+    }
+
+    const success = await deleteTicket(ticketId, csrfToken);
     if (success) {
       setTickets(tickets.filter((t) => t.id !== ticketId));
     }

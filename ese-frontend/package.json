@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
+    "csrf": "^3.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "next": "15.2.1",
