@@ -1,15 +1,13 @@
 import React from "react";
 
-const TicketForm = ({
-  newTicket,
-  setNewTicket,
-  users,
-  editingTicket,
-  handleTicketSubmit,
-  handleAssignUser,
-}) => {
+const TicketForm = ({ newTicket, setNewTicket, users, handleTicketSubmit }) => {
+  if (!newTicket) return null;
+
   return (
-    <form onSubmit={handleTicketSubmit} className="ticket-form">
+    <form
+      onSubmit={(e) => handleTicketSubmit(e, newTicket)}
+      className="ticket-form"
+    >
       <input
         type="text"
         placeholder="Title"
@@ -32,19 +30,13 @@ const TicketForm = ({
         value={newTicket.status}
         onChange={(e) => setNewTicket({ ...newTicket, status: e.target.value })}
       >
-        {editingTicket ? (
-          <>
-            <option value="ready">Ready</option>
-            <option value="in-progress">In Progress</option>
-            <option value="done">Done</option>
-          </>
-        ) : (
-          <option value="ready">Ready</option>
-        )}
+        <option value="ready">Ready</option>
+        <option value="in-progress">In Progress</option>
+        <option value="done">Done</option>
       </select>
       <select
         value={newTicket.email}
-        onChange={(e) => handleAssignUser(newTicket.id, e.target.value)}
+        onChange={(e) => setNewTicket({ ...newTicket, email: e.target.value })}
       >
         <option value="">Assign User</option>
         {users.map((user) => (
@@ -53,9 +45,7 @@ const TicketForm = ({
           </option>
         ))}
       </select>
-      <button type="submit">
-        {editingTicket ? "Update Ticket" : "Add Ticket"}
-      </button>
+      <button type="submit">Update Ticket</button>
     </form>
   );
 };

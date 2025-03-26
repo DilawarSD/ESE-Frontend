@@ -235,3 +235,7 @@ input.Tasks:focus {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.close-button {
+  cursor: pointer;
+}

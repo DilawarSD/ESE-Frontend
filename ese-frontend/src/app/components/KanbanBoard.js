@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   getTickets,
-  addTicket,
   updateTicket,
   deleteTicket,
   getUsers,
@@ -12,13 +11,8 @@ import KanbanColumn from "./KanbanColumn";
 const Board = () => {
   const [tickets, setTickets] = useState([]);
   const [users, setUsers] = useState([]);
-  const [newTicket, setNewTicket] = useState({
-    column_name: "",
-    column_tasks: "",
-    status: "ready",
-    email: "",
-  });
   const [editingTicket, setEditingTicket] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -36,29 +30,16 @@ const Board = () => {
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
-    if (!newTicket.column_name.trim()) return;
+    if (!editingTicket) return;
 
-    if (editingTicket) {
-      const updatedTicket = await updateTicket(editingTicket.id, newTicket);
-      if (updatedTicket) {
-        setTickets(
-          tickets.map((t) => (t.id === editingTicket.id ? updatedTicket : t))
-        );
-        setEditingTicket(null);
-      }
-    } else {
-      const addedTicket = await addTicket(newTicket);
-      if (addedTicket) {
-        setTickets([...tickets, addedTicket]);
-      }
+    const updatedTicket = await updateTicket(editingTicket.id, editingTicket);
+    if (updatedTicket) {
+      setTickets(
+        tickets.map((t) => (t.id === editingTicket.id ? updatedTicket : t))
+      );
+      setEditingTicket(null);
+      setIsEditing(false);
     }
-
-    setNewTicket({
-      column_name: "",
-      column_tasks: "",
-      status: "ready",
-      email: "",
-    });
   };
 
   const handleDeleteTicket = async (ticketId) => {
@@ -68,23 +49,14 @@ const Board = () => {
     }
   };
 
-  const handleAssignUser = (ticketId, email) => {
-    const user = users.find((user) => user.email === email);
-    const updatedTickets = tickets.map((ticket) =>
-      ticket.id === ticketId
-        ? { ...ticket, email: user ? user.email : "" }
-        : ticket
-    );
-    setTickets(updatedTickets);
-    setNewTicket((prevTicket) => ({
-      ...prevTicket,
-      email: user ? user.email : "",
-    }));
+  const handleEditTicket = (ticket) => {
+    setEditingTicket(ticket);
+    setIsEditing(true);
   };
 
-  const handleEditTicket = (ticket) => {
-    setNewTicket(ticket);
-    setEditingTicket(ticket);
+  const handleCloseModal = () => {
+    setEditingTicket(null);
+    setIsEditing(false);
   };
 
   const handleDragStart = (e, ticket) => {
@@ -123,14 +95,23 @@ const Board = () => {
   return (
     <div className="kanban-container">
       <h2 className="task-management">Kanban Board</h2>
-      <TicketForm
-        newTicket={newTicket}
-        setNewTicket={setNewTicket}
-        users={users}
-        editingTicket={editingTicket}
-        handleTicketSubmit={handleTicketSubmit}
-        handleAssignUser={handleAssignUser}
-      />
+
+      {isEditing && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close-button" onClick={handleCloseModal}>
+              X
+            </span>
+            <TicketForm
+              newTicket={editingTicket}
+              setNewTicket={setEditingTicket}
+              users={users}
+              handleTicketSubmit={handleTicketSubmit}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="kanban-board">
         {Object.entries(groupedTickets).map(([status, statusTickets]) => (
           <KanbanColumn
