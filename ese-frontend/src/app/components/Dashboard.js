@@ -29,6 +29,10 @@ const Dashboard = () => {
     window.location.href = "/taskmanagement";
   };
 
+  const navigateToUser = () => {
+    window.location.href = "/user";
+  };
+
   return (
     <div>
       {user ? (
@@ -45,7 +49,9 @@ const Dashboard = () => {
             >
               Create Tickets
             </button>
-
+            <button className="sign-out" onClick={navigateToUser}>
+              Users
+            </button>
             <button className="sign-out" onClick={handleSignOut}>
               Sign Out
             </button>
