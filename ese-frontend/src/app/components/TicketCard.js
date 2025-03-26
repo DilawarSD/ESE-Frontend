@@ -28,7 +28,7 @@ const TicketCard = ({
       <div className="ticket-actions">
         <button
           onClick={() => handleEditTicket(ticket)}
-          className="edit-button"
+          className="green-button"
         >
           Edit
         </button>

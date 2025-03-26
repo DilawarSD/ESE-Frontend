@@ -161,10 +161,11 @@ const Backlog = () => {
           ))}
         </select>
 
-        <button type="submit">
+        <button className="green-button" type="submit">
           {editingTicket ? "Update Ticket" : "Add Ticket"}
         </button>
       </form>
+      <br />
       <Tickets
         tickets={tickets}
         users={users}

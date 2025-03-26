@@ -93,7 +93,7 @@ const Users = () => {
 
   return (
     <div className="users-list">
-      <h2>Users List</h2>
+      <h2 className="task-management">Users List</h2>
 
       <UserForm
         newUser={newUser}
@@ -102,7 +102,7 @@ const Users = () => {
         handleUpdateUser={handleUpdateUser}
         editingUser={editingUser}
       />
-
+      <br />
       <UserList
         users={users}
         handleEditUser={handleEditUser}

@@ -20,7 +20,7 @@ const UserForm = ({
       onSubmit={editingUser ? handleUpdateUser : handleAddUser}
       className="ticket-form"
     >
-      <h3>{editingUser ? "Edit User" : "Add a New User"}</h3>
+      <strong>{editingUser ? "Edit User" : "Add a New User"}</strong>
 
       <input
         type="text"
@@ -49,7 +49,9 @@ const UserForm = ({
         onChange={handleInputChange}
       />
 
-      <button type="submit">{editingUser ? "Update User" : "Add User"}</button>
+      <button className="green-button" type="submit">
+        {editingUser ? "Update User" : "Add User"}
+      </button>
     </form>
   );
 };
