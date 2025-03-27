@@ -7,25 +7,20 @@ const UserForm = ({
   handleUpdateUser,
   editingUser,
 }) => {
-  // State to handle error message
   const [error, setError] = useState("");
 
-  // Function to validate that all fields are filled
   const validateForm = () => {
     const { first_name, last_name, email } = newUser;
     return first_name && last_name && email;
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
 
-    // Check if the form is valid
     if (validateForm()) {
-      // If valid, proceed with the submission (either add or update)
-      setError(""); // Clear any previous error message
+      setError("");
       editingUser ? handleUpdateUser(e) : handleAddUser(e);
     } else {
-      // If invalid, show an error message
       setError("Please fill in all user details.");
     }
   };
@@ -46,27 +41,30 @@ const UserForm = ({
         type="text"
         placeholder="First Name"
         className="Title"
-        name="first_name"
-        value={newUser.first_name}
-        onChange={handleInputChange}
+        value={newUser?.first_name || ""}
+        onChange={(e) =>
+          setNewUser((prev) => ({ ...prev, first_name: e.target.value }))
+        }
       />
 
       <input
         type="text"
         placeholder="Last Name"
         className="Title"
-        name="last_name"
-        value={newUser.last_name}
-        onChange={handleInputChange}
+        value={newUser?.last_name || ""}
+        onChange={(e) =>
+          setNewUser((prev) => ({ ...prev, last_name: e.target.value }))
+        }
       />
 
       <input
         type="email"
         placeholder="Email"
         className="Title"
-        name="email"
-        value={newUser.email}
-        onChange={handleInputChange}
+        value={newUser?.email || ""}
+        onChange={(e) =>
+          setNewUser((prev) => ({ ...prev, email: e.target.value }))
+        }
       />
 
       <button className="green-button" type="submit">

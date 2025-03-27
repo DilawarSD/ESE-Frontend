@@ -7,7 +7,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [csrfToken, setCsrfToken] = useState(""); // ✅ CSRF Token state
+  const [csrfToken, setCsrfToken] = useState("");
   const [newUser, setNewUser] = useState({
     first_name: "",
     last_name: "",
@@ -15,7 +15,6 @@ const Users = () => {
   });
   const [editingUser, setEditingUser] = useState(null);
 
-  // ✅ Fetch CSRF token on mount
   const fetchCsrfToken = async () => {
     try {
       const response = await fetch("/api/csrf");
@@ -26,7 +25,6 @@ const Users = () => {
     }
   };
 
-  // ✅ Fetch users
   const fetchUsers = async () => {
     try {
       const userData = await getUsers();
@@ -40,7 +38,7 @@ const Users = () => {
   };
 
   useEffect(() => {
-    fetchCsrfToken(); // ✅ Fetch CSRF token first
+    fetchCsrfToken();
     fetchUsers();
   }, []);
 
@@ -54,7 +52,7 @@ const Users = () => {
     try {
       await addUser(newUser, csrfToken);
       setNewUser({ first_name: "", last_name: "", email: "" });
-      fetchUsers(); // ✅ Refresh user list
+      fetchUsers();
     } catch (err) {
       setError("Failed to add user");
       console.error("Error adding user:", err);
@@ -81,7 +79,7 @@ const Users = () => {
       await updateUser(editingUser.id, newUser, csrfToken);
       setEditingUser(null);
       setNewUser({ first_name: "", last_name: "", email: "" });
-      fetchUsers(); // ✅ Refresh user list
+      fetchUsers();
     } catch (err) {
       setError("Failed to update user");
       console.error("Error updating user:", err);
@@ -96,7 +94,7 @@ const Users = () => {
 
     try {
       await deleteUser(id, csrfToken);
-      fetchUsers(); // ✅ Refresh user list
+      fetchUsers();
     } catch (err) {
       setError("Failed to delete user");
       console.error("Error deleting user:", err);

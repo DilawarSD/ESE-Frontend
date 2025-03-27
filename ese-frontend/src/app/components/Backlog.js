@@ -11,6 +11,7 @@ import Tickets from "../components/Tickets";
 const Backlog = () => {
   const [tickets, setTickets] = useState([]);
   const [users, setUsers] = useState([]);
+  const [error, setError] = useState("");
   const [newTicket, setNewTicket] = useState({
     column_name: "",
     column_tasks: "",
@@ -59,7 +60,7 @@ const Backlog = () => {
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
-
+    setError("");
     // Validation: Ensure all fields are filled
     if (!newTicket.column_name.trim()) {
       setError("Please fill in title before submitting.");
@@ -141,7 +142,7 @@ const Backlog = () => {
         />
         <input
           type="text"
-          placeholder="Tasks"
+          placeholder="Description"
           className="Tasks"
           value={newTicket.column_tasks}
           onChange={(e) =>
@@ -176,7 +177,7 @@ const Backlog = () => {
             </option>
           ))}
         </select>
-
+        {error && <p className="error-message">{error}</p>}
         <button className="green-button" type="submit">
           {editingTicket ? "Update Ticket" : "Add Ticket"}
         </button>

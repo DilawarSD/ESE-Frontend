@@ -13,6 +13,7 @@ const Board = () => {
   const [users, setUsers] = useState([]);
   const [editingTicket, setEditingTicket] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -39,17 +40,29 @@ const Board = () => {
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
-    if (!editingTicket) return;
+    setError(""); // Clear old errors
 
-    const updatedTicket = await updateTicket(editingTicket.id, editingTicket);
-    if (updatedTicket) {
-      setTickets(
-        tickets.map((t) => (t.id === editingTicket.id ? updatedTicket : t))
-      );
-      setEditingTicket(null);
-      setIsEditing(false);
+    if (!editingTicket || !editingTicket.column_name.trim()) {
+      setError("Please fill in the title before submitting.");
+      console.log("Error set:", error); // Debugging
+      return;
     }
-    fetchTicketsAndUsers();
+
+    try {
+      const updatedTicket = await updateTicket(editingTicket.id, editingTicket);
+      if (updatedTicket) {
+        setTickets(
+          tickets.map((t) => (t.id === editingTicket.id ? updatedTicket : t))
+        );
+        setEditingTicket(null);
+        setIsEditing(false);
+        setError(""); // Clear error on success
+      }
+      fetchTicketsAndUsers();
+    } catch (error) {
+      setError("An error occurred while updating the ticket.");
+      console.log("Error set:", error); // Debugging
+    }
   };
 
   const handleDeleteTicket = async (ticketId) => {
@@ -117,6 +130,7 @@ const Board = () => {
               setNewTicket={setEditingTicket}
               users={users}
               handleTicketSubmit={handleTicketSubmit}
+              error={error}
             />
           </div>
         </div>
