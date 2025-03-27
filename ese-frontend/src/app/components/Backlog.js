@@ -44,13 +44,27 @@ const Backlog = () => {
       }
     }
 
-    fetchCsrfToken(); // Fetch CSRF token
-    fetchTicketsAndUsers(); // Fetch tickets and users
+    fetchCsrfToken();
+    fetchTicketsAndUsers();
   }, []);
+
+  const fetchTicketsAndUsers = async () => {
+    try {
+      const ticketData = await getTickets();
+      setTickets(ticketData.fetched || []);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
-    if (!newTicket.column_name.trim()) return;
+
+    // Validation: Ensure all fields are filled
+    if (!newTicket.column_name.trim()) {
+      setError("Please fill in title before submitting.");
+      return;
+    }
 
     // If the CSRF token is not available yet, return
     if (!csrfToken) {
@@ -76,6 +90,8 @@ const Backlog = () => {
         setTickets([...tickets, addedTicket]);
       }
     }
+
+    fetchTicketsAndUsers();
 
     setNewTicket({
       column_name: "",

@@ -28,6 +28,15 @@ const Board = () => {
     fetchData();
   }, []);
 
+  const fetchTicketsAndUsers = async () => {
+    try {
+      const ticketData = await getTickets();
+      setTickets(ticketData.fetched || []);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
+
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
     if (!editingTicket) return;
@@ -40,6 +49,7 @@ const Board = () => {
       setEditingTicket(null);
       setIsEditing(false);
     }
+    fetchTicketsAndUsers();
   };
 
   const handleDeleteTicket = async (ticketId) => {

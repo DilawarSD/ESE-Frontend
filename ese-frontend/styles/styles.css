@@ -241,3 +241,7 @@ input.Tasks:focus {
 .close-button {
   cursor: pointer;
 }
+
+.error-message {
+  color: red;
+}
