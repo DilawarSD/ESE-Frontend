@@ -17,7 +17,7 @@ const UserList = ({ users, handleEditUser, handleDeleteUser }) => {
               </strong>{" "}
               - {user.email}
               <button
-                className="edit-button"
+                className="green-button"
                 onClick={() => handleEditUser(user)}
               >
                 Edit

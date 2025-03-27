@@ -1,6 +1,12 @@
 import React from "react";
 
-const TicketForm = ({ newTicket, setNewTicket, users, handleTicketSubmit }) => {
+const TicketForm = ({
+  newTicket,
+  setNewTicket,
+  users,
+  handleTicketSubmit,
+  error,
+}) => {
   if (!newTicket) return null;
 
   return (
@@ -46,6 +52,8 @@ const TicketForm = ({ newTicket, setNewTicket, users, handleTicketSubmit }) => {
         ))}
       </select>
       <button type="submit">Update Ticket</button>
+
+      {error && <p className="error-message">{error}</p>}
     </form>
   );
 };

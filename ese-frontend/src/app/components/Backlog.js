@@ -11,6 +11,7 @@ import Tickets from "../components/Tickets";
 const Backlog = () => {
   const [tickets, setTickets] = useState([]);
   const [users, setUsers] = useState([]);
+  const [error, setError] = useState("");
   const [newTicket, setNewTicket] = useState({
     column_name: "",
     column_tasks: "",
@@ -44,13 +45,27 @@ const Backlog = () => {
       }
     }
 
-    fetchCsrfToken(); // Fetch CSRF token
-    fetchTicketsAndUsers(); // Fetch tickets and users
+    fetchCsrfToken();
+    fetchTicketsAndUsers();
   }, []);
+
+  const fetchTicketsAndUsers = async () => {
+    try {
+      const ticketData = await getTickets();
+      setTickets(ticketData.fetched || []);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
-    if (!newTicket.column_name.trim()) return;
+    setError("");
+    // Validation: Ensure all fields are filled
+    if (!newTicket.column_name.trim()) {
+      setError("Please fill in title before submitting.");
+      return;
+    }
 
     // If the CSRF token is not available yet, return
     if (!csrfToken) {
@@ -76,6 +91,8 @@ const Backlog = () => {
         setTickets([...tickets, addedTicket]);
       }
     }
+
+    fetchTicketsAndUsers();
 
     setNewTicket({
       column_name: "",
@@ -125,7 +142,7 @@ const Backlog = () => {
         />
         <input
           type="text"
-          placeholder="Tasks"
+          placeholder="Description"
           className="Tasks"
           value={newTicket.column_tasks}
           onChange={(e) =>
@@ -160,11 +177,12 @@ const Backlog = () => {
             </option>
           ))}
         </select>
-
-        <button type="submit">
+        {error && <p className="error-message">{error}</p>}
+        <button className="green-button" type="submit">
           {editingTicket ? "Update Ticket" : "Add Ticket"}
         </button>
       </form>
+      <br />
       <Tickets
         tickets={tickets}
         users={users}

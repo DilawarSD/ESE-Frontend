@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const UserForm = ({
   newUser,
@@ -7,6 +7,24 @@ const UserForm = ({
   handleUpdateUser,
   editingUser,
 }) => {
+  const [error, setError] = useState("");
+
+  const validateForm = () => {
+    const { first_name, last_name, email } = newUser;
+    return first_name && last_name && email;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      setError("");
+      editingUser ? handleUpdateUser(e) : handleAddUser(e);
+    } else {
+      setError("Please fill in all user details.");
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewUser((prev) => ({
@@ -16,40 +34,44 @@ const UserForm = ({
   };
 
   return (
-    <form
-      onSubmit={editingUser ? handleUpdateUser : handleAddUser}
-      className="ticket-form"
-    >
-      <h3>{editingUser ? "Edit User" : "Add a New User"}</h3>
+    <form onSubmit={handleSubmit} className="ticket-form">
+      <strong>{editingUser ? "Edit User" : "Add a New User"}</strong>
 
       <input
         type="text"
         placeholder="First Name"
         className="Title"
-        name="first_name"
-        value={newUser.first_name}
-        onChange={handleInputChange}
+        value={newUser?.first_name || ""}
+        onChange={(e) =>
+          setNewUser((prev) => ({ ...prev, first_name: e.target.value }))
+        }
       />
 
       <input
         type="text"
         placeholder="Last Name"
         className="Title"
-        name="last_name"
-        value={newUser.last_name}
-        onChange={handleInputChange}
+        value={newUser?.last_name || ""}
+        onChange={(e) =>
+          setNewUser((prev) => ({ ...prev, last_name: e.target.value }))
+        }
       />
 
       <input
         type="email"
         placeholder="Email"
         className="Title"
-        name="email"
-        value={newUser.email}
-        onChange={handleInputChange}
+        value={newUser?.email || ""}
+        onChange={(e) =>
+          setNewUser((prev) => ({ ...prev, email: e.target.value }))
+        }
       />
 
-      <button type="submit">{editingUser ? "Update User" : "Add User"}</button>
+      <button className="green-button" type="submit">
+        {editingUser ? "Update User" : "Add User"}
+      </button>
+
+      {error && <div className="error-message">{error}</div>}
     </form>
   );
 };

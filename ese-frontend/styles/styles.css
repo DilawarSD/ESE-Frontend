@@ -49,7 +49,7 @@
 }
 
 /* Styling for Edit and Delete buttons */
-.edit-button {
+.green-button {
   background-color: #4caf50;
   color: white;
   padding: 5px 10px;
@@ -59,7 +59,7 @@
   margin-left: 5px;
 }
 
-.edit-button:hover {
+.green-button:hover {
   background-color: #45a049;
 }
 
@@ -240,4 +240,8 @@ input.Tasks:focus {
 
 .close-button {
   cursor: pointer;
+}
+
+.error-message {
+  color: red;
 }

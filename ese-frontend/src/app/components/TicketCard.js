@@ -23,12 +23,12 @@ const TicketCard = ({
         Assigned to:{" "}
         {assignedUser
           ? `${assignedUser.first_name} ${assignedUser.last_name}`
-          : "Unassigned"}
+          : "No assigned"}
       </p>
       <div className="ticket-actions">
         <button
           onClick={() => handleEditTicket(ticket)}
-          className="edit-button"
+          className="green-button"
         >
           Edit
         </button>
