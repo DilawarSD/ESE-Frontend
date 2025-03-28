@@ -40,11 +40,11 @@ const Board = () => {
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Clear old errors
+    setError("");
 
     if (!editingTicket || !editingTicket.column_name.trim()) {
       setError("Please fill in the title before submitting.");
-      console.log("Error set:", error); // Debugging
+      console.log("Error set:", error);
       return;
     }
 
@@ -56,12 +56,12 @@ const Board = () => {
         );
         setEditingTicket(null);
         setIsEditing(false);
-        setError(""); // Clear error on success
+        setError("");
       }
       fetchTicketsAndUsers();
     } catch (error) {
       setError("An error occurred while updating the ticket.");
-      console.log("Error set:", error); // Debugging
+      console.log("Error set:", error);
     }
   };
 
