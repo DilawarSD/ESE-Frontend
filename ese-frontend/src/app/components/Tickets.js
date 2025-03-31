@@ -18,7 +18,7 @@ const Ticket = ({ tickets, users, handleEditTicket, handleDeleteTicket }) => {
                    ${
                      users.find((user) => user.email === ticket.email).last_name
                    }`
-                : "Not assigned"}
+                : "Unassigned"}
             </p>
             <div className="ticket-actions">
               <button

@@ -49,7 +49,7 @@ describe("Ticket Component", () => {
     expect(screen.getByText("Assigned User: Leon Kennedy")).toBeInTheDocument();
   });
 
-  test("renders 'Not assigned' if no user matches the ticket's email", () => {
+  test("renders 'Unassigned' if no user matches the ticket's email", () => {
     const ticketsWithNoUser = [
       {
         id: 1,
@@ -69,7 +69,7 @@ describe("Ticket Component", () => {
       />
     );
 
-    expect(screen.getByText("Assigned User: Not assigned")).toBeInTheDocument();
+    expect(screen.getByText("Assigned User: Unassigned")).toBeInTheDocument();
   });
 
   test("calls handleEditTicket when Edit button is clicked", () => {
