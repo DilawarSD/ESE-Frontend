@@ -17,12 +17,6 @@ jest.mock("../../../src/lib/server", () => ({
   getUsers: jest.fn(),
 }));
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({ csrfToken: "test-csrf-token" }),
-  })
-);
-
 describe("Backlog Component", () => {
   const mockTickets = [
     {
@@ -89,10 +83,6 @@ describe("Backlog Component", () => {
 
     render(<Backlog />);
 
-    await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith("/api/csrf");
-    });
-
     fireEvent.change(screen.getByPlaceholderText("Title"), {
       target: { value: newTicket.column_name },
     });
@@ -104,8 +94,7 @@ describe("Backlog Component", () => {
 
     await waitFor(() => {
       expect(addTicket).toHaveBeenCalledWith(
-        expect.objectContaining(newTicket),
-        "test-csrf-token"
+        expect.objectContaining(newTicket)
       );
     });
 
@@ -159,8 +148,7 @@ describe("Backlog Component", () => {
           column_name: updatedTicket.column_name,
           column_tasks: updatedTicket.column_tasks,
           status: updatedTicket.status,
-        }),
-        "test-csrf-token"
+        })
       );
     });
     await waitFor(() => {
@@ -181,7 +169,7 @@ describe("Backlog Component", () => {
     fireEvent.click(deleteButtons[0]);
 
     await waitFor(() => {
-      expect(deleteTicket).toHaveBeenCalledWith(1, "test-csrf-token");
+      expect(deleteTicket).toHaveBeenCalledWith(1);
     });
 
     await waitFor(() => {
@@ -203,7 +191,7 @@ describe("Backlog Component", () => {
     fireEvent.click(deleteButtons[0]);
 
     await waitFor(() => {
-      expect(deleteTicket).toHaveBeenCalledWith(1, "test-csrf-token");
+      expect(deleteTicket).toHaveBeenCalledWith(1);
     });
 
     expect(console.log).not.toHaveBeenCalledWith("delete successful");
@@ -237,26 +225,6 @@ describe("Backlog Component", () => {
     fireEvent.change(userSelect, { target: { value: "user2@example.com" } });
 
     expect(userSelect.value).toBe("user2@example.com");
-  });
-
-  test("handles missing CSRF token when adding a ticket", async () => {
-    global.fetch.mockImplementationOnce(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({}),
-      })
-    );
-
-    render(<Backlog />);
-
-    fireEvent.change(screen.getByPlaceholderText("Title"), {
-      target: { value: "Test Ticket" },
-    });
-
-    fireEvent.click(screen.getByText("Add Ticket"));
-
-    await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith("CSRF token is missing");
-    });
   });
 
   test("handles empty or invalid responses from API", async () => {

@@ -7,23 +7,12 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [csrfToken, setCsrfToken] = useState("");
   const [newUser, setNewUser] = useState({
     first_name: "",
     last_name: "",
     email: "",
   });
   const [editingUser, setEditingUser] = useState(null);
-
-  const fetchCsrfToken = async () => {
-    try {
-      const response = await fetch("/api/csrf");
-      const data = await response.json();
-      setCsrfToken(data.csrfToken);
-    } catch (error) {
-      console.error("Error fetching CSRF token:", error);
-    }
-  };
 
   const fetchUsers = async () => {
     try {
@@ -38,19 +27,13 @@ const Users = () => {
   };
 
   useEffect(() => {
-    fetchCsrfToken();
     fetchUsers();
   }, []);
 
   const handleAddUser = async (e) => {
     e.preventDefault();
-    if (!csrfToken) {
-      console.error("CSRF token is missing");
-      return;
-    }
-
     try {
-      await addUser(newUser, csrfToken);
+      await addUser(newUser);
       setNewUser({ first_name: "", last_name: "", email: "" });
       fetchUsers();
     } catch (err) {
@@ -70,13 +53,8 @@ const Users = () => {
 
   const handleUpdateUser = async (e) => {
     e.preventDefault();
-    if (!csrfToken) {
-      console.error("CSRF token is missing");
-      return;
-    }
-
     try {
-      await updateUser(editingUser.id, newUser, csrfToken);
+      await updateUser(editingUser.id, newUser);
       setEditingUser(null);
       setNewUser({ first_name: "", last_name: "", email: "" });
       fetchUsers();
@@ -87,13 +65,8 @@ const Users = () => {
   };
 
   const handleDeleteUser = async (id) => {
-    if (!csrfToken) {
-      console.error("CSRF token is missing");
-      return;
-    }
-
     try {
-      await deleteUser(id, csrfToken);
+      await deleteUser(id);
       fetchUsers();
     } catch (err) {
       setError("Failed to delete user");

@@ -19,33 +19,8 @@ const Backlog = () => {
     email: "",
   });
   const [editingTicket, setEditingTicket] = useState(null);
-  const [csrfToken, setCsrfToken] = useState("");
 
   useEffect(() => {
-    // Fetch CSRF token on component mount
-    async function fetchCsrfToken() {
-      try {
-        const response = await fetch("/api/csrf");
-        const data = await response.json();
-        setCsrfToken(data.csrfToken);
-      } catch (error) {
-        console.error("Error fetching CSRF token:", error);
-      }
-    }
-
-    async function fetchTicketsAndUsers() {
-      try {
-        const ticketData = await getTickets();
-        setTickets(ticketData.fetched || []);
-        const userData = await getUsers();
-        setUsers(Array.isArray(userData.fetched) ? userData.fetched : []);
-      } catch (error) {
-        console.error("Error fetching tickets or users:", error);
-        setUsers([]);
-      }
-    }
-
-    fetchCsrfToken();
     fetchTicketsAndUsers();
   }, []);
 
@@ -53,32 +28,24 @@ const Backlog = () => {
     try {
       const ticketData = await getTickets();
       setTickets(ticketData.fetched || []);
+      const userData = await getUsers();
+      setUsers(Array.isArray(userData.fetched) ? userData.fetched : []);
     } catch (error) {
-      console.error("Error fetching tickets:", error);
+      console.error("Error fetching tickets or users:", error);
+      setUsers([]);
     }
   };
 
   const handleTicketSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    // Validation: Ensure all fields are filled
     if (!newTicket.column_name.trim()) {
       setError("Please fill in title before submitting.");
       return;
     }
 
-    // If the CSRF token is not available yet, return
-    if (!csrfToken) {
-      console.error("CSRF token is missing");
-      return;
-    }
-
     if (editingTicket) {
-      const updatedTicket = await updateTicket(
-        editingTicket.id,
-        newTicket,
-        csrfToken
-      );
+      const updatedTicket = await updateTicket(editingTicket.id, newTicket);
       if (updatedTicket) {
         setTickets(
           tickets.map((t) => (t.id === editingTicket.id ? updatedTicket : t))
@@ -86,7 +53,7 @@ const Backlog = () => {
         setEditingTicket(null);
       }
     } else {
-      const addedTicket = await addTicket(newTicket, csrfToken);
+      const addedTicket = await addTicket(newTicket);
       if (addedTicket) {
         setTickets([...tickets, addedTicket]);
       }
@@ -116,12 +83,7 @@ const Backlog = () => {
   };
 
   const handleDeleteTicket = async (ticketId) => {
-    if (!csrfToken) {
-      console.error("CSRF token is missing");
-      return;
-    }
-
-    const success = await deleteTicket(ticketId, csrfToken);
+    const success = await deleteTicket(ticketId);
     if (success) {
       console.log("delete successful");
       setTickets(tickets.filter((t) => t.id !== ticketId));

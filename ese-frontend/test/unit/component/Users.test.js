@@ -15,12 +15,6 @@ jest.mock("../../../src/lib/server", () => ({
   deleteUser: jest.fn(),
 }));
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({ csrfToken: "mockCsrfToken" }),
-  })
-);
-
 describe("Users Component", () => {
   const mockUsers = [
     {
@@ -95,10 +89,11 @@ describe("Users Component", () => {
     fireEvent.click(screen.getByText("Add User"));
 
     await waitFor(() =>
-      expect(addUser).toHaveBeenCalledWith(
-        { first_name: "Alex", last_name: "Johnson", email: "Alex@example.com" },
-        "mockCsrfToken"
-      )
+      expect(addUser).toHaveBeenCalledWith({
+        first_name: "Alex",
+        last_name: "Johnson",
+        email: "Alex@example.com",
+      })
     );
 
     await waitFor(() => expect(getUsers).toHaveBeenCalledTimes(2));
@@ -153,8 +148,7 @@ describe("Users Component", () => {
           first_name: "Alexander",
           last_name: "Godwin",
           email: "Alex@example.com",
-        }),
-        "mockCsrfToken"
+        })
       )
     );
 
@@ -185,9 +179,7 @@ describe("Users Component", () => {
     const deleteButtons = screen.getAllByText("Delete");
     fireEvent.click(deleteButtons[0]);
 
-    await waitFor(() =>
-      expect(deleteUser).toHaveBeenCalledWith(1, "mockCsrfToken")
-    );
+    await waitFor(() => expect(deleteUser).toHaveBeenCalledWith(1));
 
     await waitFor(() => expect(getUsers).toHaveBeenCalledTimes(2));
 
@@ -204,38 +196,6 @@ describe("Users Component", () => {
     await waitFor(() =>
       expect(screen.getByText(/failed to load users/i)).toBeInTheDocument()
     );
-  });
-
-  test("handles missing CSRF token when adding a user", async () => {
-    global.fetch.mockImplementationOnce(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({}),
-      })
-    );
-
-    getUsers.mockResolvedValueOnce({ fetched: mockUsers });
-
-    render(<Users />);
-
-    await waitFor(() =>
-      expect(screen.getByText("Users List")).toBeInTheDocument()
-    );
-
-    fireEvent.change(screen.getByPlaceholderText("First Name"), {
-      target: { value: "Test" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("Last Name"), {
-      target: { value: "User" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("Email"), {
-      target: { value: "test@example.com" },
-    });
-
-    fireEvent.click(screen.getByText("Add User"));
-
-    await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith("CSRF token is missing");
-    });
   });
 
   test("handles error when adding a user", async () => {
