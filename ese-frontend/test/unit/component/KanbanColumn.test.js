@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import KanbanColumn from "../../../src/app/components/KanbanColumn"; // Adjust the import path
+import KanbanColumn from "../../../src/app/components/KanbanColumn";
 
 describe("KanbanColumn Component", () => {
   let handleDragOverMock,
@@ -55,7 +55,6 @@ describe("KanbanColumn Component", () => {
       />
     );
 
-    // Verify the status title is correctly displayed
     expect(screen.getByText("Title 1")).toBeInTheDocument();
   });
 

@@ -38,7 +38,6 @@ describe("Ticket Component", () => {
       />
     );
 
-    // Check that each ticket's column name, tasks, and status are rendered
     expect(screen.getByText("Unit test")).toBeInTheDocument();
     expect(screen.getByText("Complete unit tests")).toBeInTheDocument();
     expect(screen.getAllByText("Status: In Progress")[0]).toBeInTheDocument();
@@ -51,7 +50,6 @@ describe("Ticket Component", () => {
   });
 
   test("renders 'Not assigned' if no user matches the ticket's email", () => {
-    // Change the ticket to an email that doesn't exist in the users array
     const ticketsWithNoUser = [
       {
         id: 1,
@@ -71,7 +69,6 @@ describe("Ticket Component", () => {
       />
     );
 
-    // Check that the "Assigned User" shows "Not assigned"
     expect(screen.getByText("Assigned User: Not assigned")).toBeInTheDocument();
   });
 
@@ -88,7 +85,6 @@ describe("Ticket Component", () => {
     const editButton = screen.getAllByText("Edit")[0];
     fireEvent.click(editButton);
 
-    // Check if the handleEditTicket was called with the correct ticket
     expect(handleEditTicket).toHaveBeenCalledWith(tickets[0]);
   });
 
@@ -105,7 +101,6 @@ describe("Ticket Component", () => {
     const deleteButton = screen.getAllByText("Delete")[0];
     fireEvent.click(deleteButton);
 
-    // Check if the handleDeleteTicket was called with the correct ticket id
     expect(handleDeleteTicket).toHaveBeenCalledWith(tickets[0].id);
   });
 });

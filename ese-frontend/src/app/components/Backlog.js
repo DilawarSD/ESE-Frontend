@@ -123,6 +123,7 @@ const Backlog = () => {
 
     const success = await deleteTicket(ticketId, csrfToken);
     if (success) {
+      console.log("delete successful");
       setTickets(tickets.filter((t) => t.id !== ticketId));
     }
   };

@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, within, fireEvent } from "@testing-library/react";
-import UserList from "../../../src/app/components/UserList"; // Adjust path if needed
+import UserList from "../../../src/app/components/UserList";
 
 describe("UserList Component", () => {
   let handleEditUserMock, handleDeleteUserMock;
@@ -46,10 +46,8 @@ describe("UserList Component", () => {
       />
     );
 
-    // Find all list items
     const listItems = screen.getAllByRole("listitem");
 
-    // Verify content inside each list item using `within()`
     expect(within(listItems[0]).getByText(/Alex godwin/i)).toBeInTheDocument();
     expect(
       within(listItems[0]).getByText(/Alex@example.com/i)
@@ -110,5 +108,25 @@ describe("UserList Component", () => {
 
     expect(handleDeleteUserMock).toHaveBeenCalledTimes(1);
     expect(handleDeleteUserMock).toHaveBeenCalledWith(1);
+  });
+  test("displays 'No users found' message when users array is empty", () => {
+    const handleEditUserMock = jest.fn();
+    const handleDeleteUserMock = jest.fn();
+
+    render(
+      <UserList
+        users={[]}
+        handleEditUser={handleEditUserMock}
+        handleDeleteUser={handleDeleteUserMock}
+      />
+    );
+
+    expect(screen.getByText("No users found.")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /Edit/i })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /Delete/i })
+    ).not.toBeInTheDocument();
   });
 });

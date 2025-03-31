@@ -128,4 +128,28 @@ describe("UserForm Component", () => {
 
     expect(handleUpdateUserMock).toHaveBeenCalledTimes(1);
   });
+  test("handleInputChange updates the correct field using name attribute", () => {
+    render(
+      <UserForm
+        newUser={{ first_name: "", last_name: "", email: "" }}
+        setNewUser={setNewUserMock}
+        handleAddUser={handleAddUserMock}
+        handleUpdateUser={handleUpdateUserMock}
+        editingUser={false}
+      />
+    );
+
+    const firstNameInput = screen.getByPlaceholderText("First Name");
+    fireEvent.change(firstNameInput, {
+      target: { name: "first_name", value: "John" },
+    });
+
+    expect(setNewUserMock).toHaveBeenCalled();
+
+    const updaterFn = setNewUserMock.mock.calls[0][0];
+
+    const result = updaterFn({ first_name: "", last_name: "", email: "" });
+
+    expect(result).toEqual({ first_name: "", last_name: "", email: "" });
+  });
 });

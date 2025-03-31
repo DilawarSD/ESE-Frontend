@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Dashboard from "../../../src/app/components/Dashboard";
 import { supabase } from "../../../src/lib/supabaseClient";
 
-// Mock the supabase client
 jest.mock("../../../src/lib/supabaseClient", () => ({
   supabase: {
     auth: {

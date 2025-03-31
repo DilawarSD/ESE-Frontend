@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import TicketCard from "../../../src/app/components/TicketCard"; // Adjust the import path
+import TicketCard from "../../../src/app/components/TicketCard";
 
 describe("TicketCard Component", () => {
   let handleDragStartMock,
@@ -62,7 +62,6 @@ describe("TicketCard Component", () => {
       />
     );
 
-    // Expect to see 'No assigned'
     expect(screen.getByText(/Assigned to: No assigned/i)).toBeInTheDocument();
   });
 
@@ -116,7 +115,6 @@ describe("TicketCard Component", () => {
 
     const ticketCard = screen.getByText(/Title task/i).closest("div");
 
-    // Simulate dragging event using fireEvent
     fireEvent.dragStart(ticketCard);
     expect(handleDragStartMock).toHaveBeenCalledWith(expect.anything(), ticket);
 
