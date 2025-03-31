@@ -13,6 +13,7 @@ const TicketForm = ({
     <form
       onSubmit={(e) => handleTicketSubmit(e, newTicket)}
       className="ticket-form"
+      role="form"
     >
       <input
         type="text"
@@ -35,6 +36,7 @@ const TicketForm = ({
       <select
         value={newTicket.status}
         onChange={(e) => setNewTicket({ ...newTicket, status: e.target.value })}
+        aria-label="Status"
       >
         <option value="ready">Ready</option>
         <option value="in-progress">In Progress</option>
@@ -43,6 +45,7 @@ const TicketForm = ({
       <select
         value={newTicket.email}
         onChange={(e) => setNewTicket({ ...newTicket, email: e.target.value })}
+        aria-label="Assign User"
       >
         <option value="">Assign User</option>
         {users.map((user) => (
