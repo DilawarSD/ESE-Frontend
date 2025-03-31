@@ -45,7 +45,7 @@ describe("TicketCard Component", () => {
     expect(screen.getByText(/Assigned to: Leon Kennedy/i)).toBeInTheDocument();
   });
 
-  test("renders 'No assigned' if no user is assigned to the ticket", () => {
+  test("renders 'Unassigned' if no user is assigned to the ticket", () => {
     const unassignedTicket = {
       ...ticket,
       email: "",
@@ -62,7 +62,7 @@ describe("TicketCard Component", () => {
       />
     );
 
-    expect(screen.getByText(/Assigned to: No assigned/i)).toBeInTheDocument();
+    expect(screen.getByText(/Assigned to: Unassigned/i)).toBeInTheDocument();
   });
 
   test("calls handleEditTicket when Edit button is clicked", () => {
