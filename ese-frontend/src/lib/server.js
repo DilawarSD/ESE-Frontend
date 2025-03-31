@@ -1,23 +1,11 @@
-// Function to get CSRF token
-async function getCSRFToken() {
-  try {
-    const response = await fetch("/api/csrf");
-    const data = await response.json();
-    return data.csrfToken;
-  } catch (error) {
-    console.error("Error fetching CSRF token:", error);
-    return null;
-  }
-}
-
 // Function to get the list of tickets (GET request)
 export async function getTickets() {
   try {
-    const csrfToken = await getCSRFToken(); // Get CSRF token
+    const csrfToken = await getCSRFToken();
     const response = await fetch("/api/tickets", {
       headers: {
         "Content-Type": "application/json",
-        "x-csrf-token": csrfToken, // Attach CSRF token
+        "x-csrf-token": csrfToken,
       },
     });
     const data = await response.json();
@@ -31,12 +19,12 @@ export async function getTickets() {
 // Function to add a new ticket (POST request)
 export async function addTicket(ticketData) {
   try {
-    const csrfToken = await getCSRFToken(); // Get CSRF token
+    const csrfToken = await getCSRFToken();
     const response = await fetch("/api/tickets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-csrf-token": csrfToken, // Attach CSRF token
+        "x-csrf-token": csrfToken,
       },
       body: JSON.stringify(ticketData),
     });
@@ -56,12 +44,12 @@ export async function addTicket(ticketData) {
 // Function to update a ticket (PUT request)
 export async function updateTicket(ticketId, updatedData) {
   try {
-    const csrfToken = await getCSRFToken(); // Get CSRF token
+    const csrfToken = await getCSRFToken();
     const response = await fetch(`/api/tickets`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "x-csrf-token": csrfToken, // Attach CSRF token
+        "x-csrf-token": csrfToken,
       },
       body: JSON.stringify({ id: ticketId, ...updatedData }),
     });
@@ -81,12 +69,12 @@ export async function updateTicket(ticketId, updatedData) {
 // Function to delete a ticket (DELETE request)
 export async function deleteTicket(ticketId) {
   try {
-    const csrfToken = await getCSRFToken(); // Get CSRF token
+    const csrfToken = await getCSRFToken();
     const response = await fetch(`/api/tickets`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "x-csrf-token": csrfToken, // Attach CSRF token
+        "x-csrf-token": csrfToken,
       },
       body: JSON.stringify({ id: ticketId }),
     });
@@ -106,11 +94,11 @@ export async function deleteTicket(ticketId) {
 // Function to get the list of users (GET request)
 export async function getUsers() {
   try {
-    const csrfToken = await getCSRFToken(); // Get CSRF token
+    const csrfToken = await getCSRFToken();
     const response = await fetch("/api/users", {
       headers: {
         "Content-Type": "application/json",
-        "x-csrf-token": csrfToken, // Attach CSRF token
+        "x-csrf-token": csrfToken,
       },
     });
     const data = await response.json();
@@ -124,12 +112,12 @@ export async function getUsers() {
 // Function to add a new user (POST request)
 export async function addUser(userData) {
   try {
-    const csrfToken = await getCSRFToken(); // Get CSRF token
+    const csrfToken = await getCSRFToken();
     const response = await fetch("/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-csrf-token": csrfToken, // Attach CSRF token
+        "x-csrf-token": csrfToken,
       },
       body: JSON.stringify(userData),
     });
@@ -149,12 +137,12 @@ export async function addUser(userData) {
 // Function to update a user (PUT request)
 export async function updateUser(userId, updatedData) {
   try {
-    const csrfToken = await getCSRFToken(); // Get CSRF token
+    const csrfToken = await getCSRFToken();
     const response = await fetch(`/api/users`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "x-csrf-token": csrfToken, // Attach CSRF token
+        "x-csrf-token": csrfToken,
       },
       body: JSON.stringify({ id: userId, ...updatedData }),
     });
@@ -174,12 +162,12 @@ export async function updateUser(userId, updatedData) {
 // Function to delete a user (DELETE request)
 export async function deleteUser(userId) {
   try {
-    const csrfToken = await getCSRFToken(); // Get CSRF token
+    const csrfToken = await getCSRFToken();
     const response = await fetch(`/api/users`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "x-csrf-token": csrfToken, // Attach CSRF token
+        "x-csrf-token": csrfToken,
       },
       body: JSON.stringify({ id: userId }),
     });
@@ -192,6 +180,18 @@ export async function deleteUser(userId) {
     return data;
   } catch (error) {
     console.error("Error deleting user:", error);
+    return null;
+  }
+}
+
+// Function to get CSRF token
+async function getCSRFToken() {
+  try {
+    const response = await fetch("/api/csrf");
+    const data = await response.json();
+    return data.csrfToken;
+  } catch (error) {
+    console.error("Error fetching CSRF token:", error);
     return null;
   }
 }
