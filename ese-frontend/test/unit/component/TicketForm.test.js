@@ -51,7 +51,7 @@ describe("TicketForm", () => {
     expect(screen.getByPlaceholderText("Tasks")).toHaveValue("Test Task");
 
     const statusSelect = screen.getByRole("combobox", { name: /status/i });
-    expect(statusSelect.value).toBe("ready");
+    expect(statusSelect.value).toBe("Ready");
 
     expect(screen.getByText("Assign User")).toBeInTheDocument();
   });
@@ -60,7 +60,7 @@ describe("TicketForm", () => {
     const newTicket = {
       column_name: "",
       column_tasks: "",
-      status: "ready",
+      status: "Ready",
       email: "",
     };
 
@@ -74,7 +74,7 @@ describe("TicketForm", () => {
     fireEvent.change(titleInput, { target: { value: "New Ticket Title" } });
     fireEvent.change(tasksInput, { target: { value: "New Task" } });
 
-    fireEvent.change(statusSelect, { target: { value: "in-progress" } });
+    fireEvent.change(statusSelect, { target: { value: "In-progress" } });
     fireEvent.change(userSelect, {
       target: { value: "Alex@example.com" },
     });
@@ -82,7 +82,7 @@ describe("TicketForm", () => {
     expect(setNewTicketMock).toHaveBeenCalledWith({
       column_name: "",
       column_tasks: "",
-      status: "in-progress",
+      status: "In-progress",
       email: "",
     });
   });
@@ -91,7 +91,7 @@ describe("TicketForm", () => {
     const newTicket = {
       column_name: "Ticket Title",
       column_tasks: "Ticket Task",
-      status: "ready",
+      status: "Ready",
       email: "Alex@example.com",
     };
 
@@ -111,7 +111,7 @@ describe("TicketForm", () => {
     const newTicket = {
       column_name: "",
       column_tasks: "",
-      status: "ready",
+      status: "Ready",
       email: "",
     };
 

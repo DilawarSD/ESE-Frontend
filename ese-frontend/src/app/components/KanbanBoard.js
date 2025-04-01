@@ -110,9 +110,9 @@ const Board = () => {
   };
 
   const groupedTickets = {
-    ready: tickets.filter((ticket) => ticket.status === "ready"),
-    "in-progress": tickets.filter((ticket) => ticket.status === "in-progress"),
-    done: tickets.filter((ticket) => ticket.status === "done"),
+    Ready: tickets.filter((ticket) => ticket.status === "Ready"),
+    "In-progress": tickets.filter((ticket) => ticket.status === "In-progress"),
+    Done: tickets.filter((ticket) => ticket.status === "Done"),
   };
 
   return (

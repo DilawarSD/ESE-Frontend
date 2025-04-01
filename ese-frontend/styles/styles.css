@@ -245,3 +245,44 @@ input.Tasks:focus {
 .error-message {
   color: red;
 }
+.controls-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-button {
+  background: #4caf50;
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sort-button.active {
+  background: #4caf50;
+  font-weight: bold;
+}
+
+.sort-button:hover {
+  background: #4caf50;
+}

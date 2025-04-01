@@ -7,6 +7,7 @@ import {
   getUsers,
 } from "../../lib/server";
 import Tickets from "../components/Tickets";
+import Search from "../components/Search";
 
 const Backlog = () => {
   const [tickets, setTickets] = useState([]);
@@ -15,10 +16,16 @@ const Backlog = () => {
   const [newTicket, setNewTicket] = useState({
     column_name: "",
     column_tasks: "",
-    status: "ready",
+    status: "Ready",
     email: "",
   });
   const [editingTicket, setEditingTicket] = useState(null);
+  // State variables for search and sort
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({
+    key: "column_name",
+    direction: "ascending",
+  });
 
   useEffect(() => {
     fetchTicketsAndUsers();
@@ -64,7 +71,7 @@ const Backlog = () => {
     setNewTicket({
       column_name: "",
       column_tasks: "",
-      status: "ready",
+      status: "Ready",
       email: "",
     });
   };
@@ -88,6 +95,63 @@ const Backlog = () => {
       console.log("delete successful");
       setTickets(tickets.filter((t) => t.id !== ticketId));
     }
+  };
+
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortedTickets = () => {
+    const sortableTickets = [...tickets];
+    if (sortConfig.key) {
+      sortableTickets.sort((a, b) => {
+        if (
+          typeof a[sortConfig.key] === "string" &&
+          typeof b[sortConfig.key] === "string"
+        ) {
+          const valueA = a[sortConfig.key].toLowerCase();
+          const valueB = b[sortConfig.key].toLowerCase();
+
+          if (valueA < valueB) {
+            return sortConfig.direction === "ascending" ? -1 : 1;
+          }
+          if (valueA > valueB) {
+            return sortConfig.direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        } else {
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === "ascending" ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        }
+      });
+    }
+    return sortableTickets;
+  };
+
+  const getFilteredTickets = () => {
+    const sortedTickets = getSortedTickets();
+    if (!searchTerm) return sortedTickets;
+
+    return sortedTickets.filter((ticket) => {
+      const term = searchTerm.toLowerCase();
+      return (
+        (ticket.column_name &&
+          ticket.column_name.toLowerCase().includes(term)) ||
+        (ticket.column_tasks &&
+          ticket.column_tasks.toLowerCase().includes(term)) ||
+        (ticket.status && ticket.status.toLowerCase().includes(term)) ||
+        (ticket.email && ticket.email.toLowerCase().includes(term))
+      );
+    });
   };
 
   return (
@@ -120,12 +184,12 @@ const Backlog = () => {
         >
           {editingTicket ? (
             <>
-              <option value="ready">Ready</option>
-              <option value="in-progress">In Progress</option>
-              <option value="done">Done</option>
+              <option value="Ready">Ready</option>
+              <option value="In-progress">In Progress</option>
+              <option value="Done">Done</option>
             </>
           ) : (
-            <option value="ready">Ready</option>
+            <option value="Ready">Ready</option>
           )}
         </select>
 
@@ -146,8 +210,21 @@ const Backlog = () => {
         </button>
       </form>
       <br />
+
+      <Search
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        sortConfig={sortConfig}
+        handleSort={handleSort}
+        searchPlaceholder="Search tickets..."
+        sortOptions={[
+          { key: "column_name", label: "Title" },
+          { key: "status", label: "Status" },
+        ]}
+      />
+      <br />
       <Tickets
-        tickets={tickets}
+        tickets={getFilteredTickets()}
         users={users}
         handleEditTicket={handleEditTicket}
         handleDeleteTicket={handleDeleteTicket}

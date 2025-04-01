@@ -20,21 +20,21 @@ const mockTickets = [
   {
     id: 1,
     title: "Ticket 1",
-    status: "ready",
+    status: "Ready",
     column_name: "Ready Column",
     assignee_id: 1,
   },
   {
     id: 2,
     title: "Ticket 2",
-    status: "in-progress",
+    status: "In-progress",
     column_name: "In Progress Column",
     assignee_id: 2,
   },
   {
     id: 3,
     title: "Ticket 3",
-    status: "done",
+    status: "Done",
     column_name: "Done Column",
     assignee_id: 1,
   },
@@ -127,7 +127,7 @@ describe("KanbanBoard Component", () => {
     updateTicket.mockResolvedValue({
       id: 1,
       title: "Updated Ticket",
-      status: "ready",
+      status: "Ready",
       column_name: "Updated Column",
       assignee_id: 2,
     });
@@ -182,7 +182,7 @@ describe("KanbanBoard Component", () => {
     updateTicket.mockResolvedValue({
       id: 1,
       title: "Ticket 1",
-      status: "in-progress",
+      status: "In-progress",
       column_name: "Ready Column",
       assignee_id: 1,
     });
@@ -221,7 +221,7 @@ describe("KanbanBoard Component", () => {
       expect(updateTicket).toHaveBeenCalledWith(
         1,
         expect.objectContaining({
-          status: "in-progress",
+          status: "In-progress",
         })
       );
     });
