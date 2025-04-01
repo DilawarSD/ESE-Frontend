@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getUsers, addUser, updateUser, deleteUser } from "../../lib/server";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
+import Search from "../components/Search";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -13,6 +14,12 @@ const Users = () => {
     email: "",
   });
   const [editingUser, setEditingUser] = useState(null);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({
+    key: "first_name",
+    direction: "ascending",
+  });
 
   const fetchUsers = async () => {
     try {
@@ -74,6 +81,60 @@ const Users = () => {
     }
   };
 
+  const handleSort = (key) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortedUsers = () => {
+    const sortableUsers = [...users];
+    if (sortConfig.key) {
+      sortableUsers.sort((a, b) => {
+        if (
+          typeof a[sortConfig.key] === "string" &&
+          typeof b[sortConfig.key] === "string"
+        ) {
+          const valueA = a[sortConfig.key].toLowerCase();
+          const valueB = b[sortConfig.key].toLowerCase();
+
+          if (valueA < valueB) {
+            return sortConfig.direction === "ascending" ? -1 : 1;
+          }
+          if (valueA > valueB) {
+            return sortConfig.direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        } else {
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === "ascending" ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        }
+      });
+    }
+    return sortableUsers;
+  };
+
+  const getFilteredUsers = () => {
+    const sortedUsers = getSortedUsers();
+    if (!searchTerm) return sortedUsers;
+
+    return sortedUsers.filter((user) => {
+      const term = searchTerm.toLowerCase();
+      return (
+        (user.first_name && user.first_name.toLowerCase().includes(term)) ||
+        (user.last_name && user.last_name.toLowerCase().includes(term)) ||
+        (user.email && user.email.toLowerCase().includes(term))
+      );
+    });
+  };
+
   if (loading) {
     return <p>Loading users...</p>;
   }
@@ -94,8 +155,22 @@ const Users = () => {
         editingUser={editingUser}
       />
       <br />
+
+      <Search
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        sortConfig={sortConfig}
+        handleSort={handleSort}
+        searchPlaceholder="Search users..."
+        sortOptions={[
+          { key: "first_name", label: "First Name" },
+          { key: "last_name", label: "Last Name" },
+          { key: "email", label: "Email" },
+        ]}
+      />
+
       <UserList
-        users={users}
+        users={getFilteredUsers()}
         handleEditUser={handleEditUser}
         handleDeleteUser={handleDeleteUser}
       />

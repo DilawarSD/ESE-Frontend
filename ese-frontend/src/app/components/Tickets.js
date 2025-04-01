@@ -1,6 +1,12 @@
-import React from "react";
-
 const Ticket = ({ tickets, users, handleEditTicket, handleDeleteTicket }) => {
+  if (!tickets || tickets.length === 0) {
+    return (
+      <div>
+        <p>No tickets found.</p>
+      </div>
+    );
+  }
+
   return (
     <ul>
       {tickets.map((ticket, index) => (
