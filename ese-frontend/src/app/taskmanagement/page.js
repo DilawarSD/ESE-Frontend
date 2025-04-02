@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
+import withAuth from "../../lib/withAuth";
 import Dashboard from "../components/Dashboard";
 import Backlog from "../components/Backlog";
-import Users from "../components/Users";
+
 const Task = () => {
   return (
     <div>
@@ -14,4 +15,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default withAuth(Task);
