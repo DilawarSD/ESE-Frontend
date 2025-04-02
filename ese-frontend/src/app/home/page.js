@@ -3,8 +3,9 @@
 import React from "react";
 import Dashboard from "../components/Dashboard";
 import KanbanBoard from "../components/KanbanBoard";
+import withAuth from "../../lib/withAuth";
 
-const Task = () => {
+const Home = () => {
   return (
     <div>
       <h1 className="task-management">Task Management</h1>
@@ -14,4 +15,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default withAuth(Home);

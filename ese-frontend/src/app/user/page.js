@@ -3,7 +3,9 @@
 import React from "react";
 import Dashboard from "../components/Dashboard";
 import User from "../components/Users";
-const Task = () => {
+import withAuth from "../../lib/withAuth";
+
+const Users = () => {
   return (
     <div>
       <h1 className="task-management">Task Management</h1>
@@ -13,4 +15,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default withAuth(Users);

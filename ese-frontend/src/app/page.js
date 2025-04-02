@@ -4,7 +4,7 @@ import React from "react";
 
 import Sign from "../app/components/Sign";
 
-const Home = () => {
+const Login = () => {
   return (
     <div>
       <Sign />
@@ -12,4 +12,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;
