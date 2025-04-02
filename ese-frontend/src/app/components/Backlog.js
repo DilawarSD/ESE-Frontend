@@ -15,7 +15,7 @@ const Backlog = () => {
   const [newTicket, setNewTicket] = useState({
     column_name: "",
     column_tasks: "",
-    status: "ready",
+    status: "Ready",
     email: "",
   });
   const [editingTicket, setEditingTicket] = useState(null);
@@ -64,7 +64,7 @@ const Backlog = () => {
     setNewTicket({
       column_name: "",
       column_tasks: "",
-      status: "ready",
+      status: "Ready",
       email: "",
     });
   };
@@ -120,12 +120,12 @@ const Backlog = () => {
         >
           {editingTicket ? (
             <>
-              <option value="ready">Ready</option>
-              <option value="in-progress">In Progress</option>
-              <option value="done">Done</option>
+              <option value="Ready">Ready</option>
+              <option value="In-progress">In Progress</option>
+              <option value="Done">Done</option>
             </>
           ) : (
-            <option value="ready">Ready</option>
+            <option value="Ready">Ready</option>
           )}
         </select>
 

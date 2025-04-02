@@ -38,9 +38,9 @@ const TicketForm = ({
         onChange={(e) => setNewTicket({ ...newTicket, status: e.target.value })}
         aria-label="Status"
       >
-        <option value="ready">Ready</option>
-        <option value="in-progress">In Progress</option>
-        <option value="done">Done</option>
+        <option value="Ready">Ready</option>
+        <option value="In-progress">In Progress</option>
+        <option value="Done">Done</option>
       </select>
       <select
         value={newTicket.email}
