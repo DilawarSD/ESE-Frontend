@@ -7,6 +7,12 @@ import {
 } from "../../lib/server";
 import TicketForm from "./TicketForm";
 import KanbanColumn from "./KanbanColumn";
+import {
+  handleDragStart,
+  handleDragEnd,
+  handleDragOver,
+  handleDrop,
+} from "./DragAndDrop";
 
 const Board = () => {
   const [tickets, setTickets] = useState([]);
@@ -82,33 +88,6 @@ const Board = () => {
     setIsEditing(false);
   };
 
-  const handleDragStart = (e, ticket) => {
-    e.dataTransfer.setData("ticketId", ticket.id);
-    e.target.style.opacity = 0.5;
-  };
-
-  const handleDragEnd = (e) => {
-    e.target.style.opacity = 1;
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = async (e, status) => {
-    e.preventDefault();
-    const ticketId = e.dataTransfer.getData("ticketId");
-    const updatedTickets = [...tickets];
-    const draggedTicket = updatedTickets.find(
-      (ticket) => ticket.id.toString() === ticketId
-    );
-    if (draggedTicket) {
-      draggedTicket.status = status;
-      await updateTicket(draggedTicket.id, { ...draggedTicket });
-      setTickets(updatedTickets);
-    }
-  };
-
   const groupedTickets = {
     Ready: tickets.filter((ticket) => ticket.status === "Ready"),
     "In-progress": tickets.filter((ticket) => ticket.status === "In-progress"),
@@ -144,7 +123,9 @@ const Board = () => {
             tickets={statusTickets}
             users={users}
             handleDragOver={handleDragOver}
-            handleDrop={handleDrop}
+            handleDrop={(e) =>
+              handleDrop(e, status, tickets, setTickets, updateTicket)
+            }
             handleDragStart={handleDragStart}
             handleDragEnd={handleDragEnd}
             handleEditTicket={handleEditTicket}

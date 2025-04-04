@@ -6,8 +6,10 @@ import {
   deleteTicket,
   getUsers,
 } from "../../lib/server";
-import Tickets from "../components/Tickets";
 import Search from "../components/Search";
+import BacklogForm from "./BacklogForm";
+import BacklogList from "./BacklogList";
+import { getFilteredTickets } from "../../utils/ticketUtils";
 
 const Backlog = () => {
   const [tickets, setTickets] = useState([]);
@@ -20,7 +22,6 @@ const Backlog = () => {
     email: "",
   });
   const [editingTicket, setEditingTicket] = useState(null);
-  // State variables for search and sort
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "column_name",
@@ -105,112 +106,27 @@ const Backlog = () => {
     setSortConfig({ key, direction });
   };
 
-  const getSortedTickets = () => {
-    const sortableTickets = [...tickets];
-    if (sortConfig.key) {
-      sortableTickets.sort((a, b) => {
-        if (
-          typeof a[sortConfig.key] === "string" &&
-          typeof b[sortConfig.key] === "string"
-        ) {
-          const valueA = a[sortConfig.key].toLowerCase();
-          const valueB = b[sortConfig.key].toLowerCase();
-
-          if (valueA < valueB) {
-            return sortConfig.direction === "ascending" ? -1 : 1;
-          }
-          if (valueA > valueB) {
-            return sortConfig.direction === "ascending" ? 1 : -1;
-          }
-          return 0;
-        } else {
-          if (a[sortConfig.key] < b[sortConfig.key]) {
-            return sortConfig.direction === "ascending" ? -1 : 1;
-          }
-          if (a[sortConfig.key] > b[sortConfig.key]) {
-            return sortConfig.direction === "ascending" ? 1 : -1;
-          }
-          return 0;
-        }
-      });
-    }
-    return sortableTickets;
-  };
-
-  const getFilteredTickets = () => {
-    const sortedTickets = getSortedTickets();
-    if (!searchTerm) return sortedTickets;
-
-    return sortedTickets.filter((ticket) => {
-      const term = searchTerm.toLowerCase();
-      return (
-        (ticket.column_name &&
-          ticket.column_name.toLowerCase().includes(term)) ||
-        (ticket.column_tasks &&
-          ticket.column_tasks.toLowerCase().includes(term)) ||
-        (ticket.status && ticket.status.toLowerCase().includes(term)) ||
-        (ticket.email && ticket.email.toLowerCase().includes(term))
-      );
-    });
-  };
+  // Here, we use getSortedTickets first and then filter the tickets based on search term
+  const filteredTickets = getFilteredTickets(
+    tickets,
+    users,
+    searchTerm,
+    sortConfig
+  );
 
   return (
     <div>
       <h2 className="task-management">Backlog</h2>
-      <form onSubmit={handleTicketSubmit} className="ticket-form">
-        <input
-          type="text"
-          placeholder="Title"
-          className="Title"
-          value={newTicket.column_name}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, column_name: e.target.value })
-          }
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          className="Tasks"
-          value={newTicket.column_tasks}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, column_tasks: e.target.value })
-          }
-        />
-        <select
-          value={newTicket.status}
-          onChange={(e) =>
-            setNewTicket({ ...newTicket, status: e.target.value })
-          }
-        >
-          {editingTicket ? (
-            <>
-              <option value="Ready">Ready</option>
-              <option value="In-progress">In Progress</option>
-              <option value="Done">Done</option>
-            </>
-          ) : (
-            <option value="Ready">Ready</option>
-          )}
-        </select>
-
-        <select
-          value={newTicket.email}
-          onChange={(e) => handleAssignUser(newTicket.id, e.target.value)}
-        >
-          <option value="">Assign User</option>
-          {users.map((user) => (
-            <option key={user.id} value={user.email}>
-              {user.first_name} {user.last_name} ({user.email})
-            </option>
-          ))}
-        </select>
-        {error && <p className="error-message">{error}</p>}
-        <button className="green-button" type="submit">
-          {editingTicket ? "Update Ticket" : "Add Ticket"}
-        </button>
-      </form>
+      <BacklogForm
+        newTicket={newTicket}
+        setNewTicket={setNewTicket}
+        handleTicketSubmit={handleTicketSubmit}
+        users={users}
+        handleAssignUser={handleAssignUser}
+        editingTicket={editingTicket}
+        error={error}
+      />
       <br />
-
       <Search
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -223,8 +139,8 @@ const Backlog = () => {
         ]}
       />
       <br />
-      <Tickets
-        tickets={getFilteredTickets()}
+      <BacklogList
+        tickets={filteredTickets}
         users={users}
         handleEditTicket={handleEditTicket}
         handleDeleteTicket={handleDeleteTicket}
