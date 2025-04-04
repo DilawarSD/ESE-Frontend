@@ -8,6 +8,12 @@ const Search = ({
   searchPlaceholder = "Search...",
   sortOptions = [],
 }) => {
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    console.log("Search input value:", value); // Debugging line to log input
+    setSearchTerm(value); // Ensure the state is being updated correctly
+  };
+
   return (
     <div className="controls-container">
       <div className="search-container">
@@ -15,7 +21,7 @@ const Search = ({
           type="text"
           placeholder={searchPlaceholder}
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange}
           className="search-input"
         />
       </div>
