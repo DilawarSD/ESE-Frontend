@@ -77,7 +77,7 @@ describe("Drag and Drop Functions", () => {
     const tickets = [{ id: 1, status: "new" }];
     const status = "in-progress";
 
-    mockEvent.dataTransfer.getData.mockReturnValue("2"); // Different ticket id
+    mockEvent.dataTransfer.getData.mockReturnValue("2");
 
     await handleDrop(
       mockEvent,

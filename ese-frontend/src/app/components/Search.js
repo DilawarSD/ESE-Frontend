@@ -10,8 +10,8 @@ const Search = ({
 }) => {
   const handleSearchChange = (e) => {
     const value = e.target.value;
-    console.log("Search input value:", value); // Debugging line to log input
-    setSearchTerm(value); // Ensure the state is being updated correctly
+    console.log("Search input value:", value);
+    setSearchTerm(value);
   };
 
   return (

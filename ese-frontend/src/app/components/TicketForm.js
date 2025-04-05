@@ -54,8 +54,9 @@ const TicketForm = ({
           </option>
         ))}
       </select>
-      <button type="submit">Update Ticket</button>
-
+      <button className="green-button" type="submit">
+        Update Ticket
+      </button>
       {error && <p className="error-message">{error}</p>}
     </form>
   );

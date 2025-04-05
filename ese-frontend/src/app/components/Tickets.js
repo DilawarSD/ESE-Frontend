@@ -1,3 +1,5 @@
+import React from "react";
+
 const Ticket = ({ tickets, users, handleEditTicket, handleDeleteTicket }) => {
   if (!tickets || tickets.length === 0) {
     return (

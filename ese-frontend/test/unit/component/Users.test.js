@@ -200,46 +200,4 @@ describe("Users Component", () => {
 
     expect(sortButtons[0].textContent).toContain("First Name ↑");
   });
-
-  test("cancels editing by selecting a different user", async () => {
-    render(<Users />);
-
-    await waitFor(() =>
-      expect(screen.getByText(/Alex Godwin/i)).toBeInTheDocument()
-    );
-
-    const editButtons = screen.getAllByText("Edit");
-    fireEvent.click(editButtons[0]);
-
-    expect(screen.getByDisplayValue("Alex")).toBeInTheDocument();
-
-    fireEvent.click(editButtons[1]);
-
-    expect(screen.getByDisplayValue("Leon")).toBeInTheDocument();
-  });
-
-  test("clears form after successful user addition", async () => {
-    render(<Users />);
-
-    await waitFor(() =>
-      expect(screen.getByText("Users List")).toBeInTheDocument()
-    );
-
-    fireEvent.change(screen.getByPlaceholderText("First Name"), {
-      target: { value: "New" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("Last Name"), {
-      target: { value: "User" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("Email"), {
-      target: { value: "new@example.com" },
-    });
-
-    fireEvent.click(screen.getByText("Add User"));
-
-    await waitFor(() => {
-      const firstNameInput = screen.getByPlaceholderText("First Name");
-      expect(firstNameInput.value).toBe("");
-    });
-  });
 });

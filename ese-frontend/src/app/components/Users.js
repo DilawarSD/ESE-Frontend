@@ -85,7 +85,6 @@ const Users = () => {
     }));
   };
 
-  // Sorting and filtering users
   const displayedUsers = filterUsers(sortUsers(users, sortConfig), searchTerm);
 
   if (loading) return <p>Loading users...</p>;
