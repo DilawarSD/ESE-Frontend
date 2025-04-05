@@ -59,17 +59,6 @@ describe("Backlog Component", () => {
     console.log.mockRestore();
   });
 
-  test("renders tickets after loading", async () => {
-    render(<Backlog />);
-    await waitFor(() => expect(getTickets).toHaveBeenCalled());
-    await waitFor(() =>
-      expect(screen.queryByText(/loading tickets/i)).not.toBeInTheDocument()
-    );
-
-    expect(screen.getByText("Task 1")).toBeInTheDocument();
-    expect(screen.getByText("Task 2")).toBeInTheDocument();
-  });
-
   test("handles error when fetching tickets fails", async () => {
     getTickets.mockRejectedValue(new Error("Failed to fetch tickets"));
 

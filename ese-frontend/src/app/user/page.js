@@ -4,11 +4,12 @@ import React from "react";
 import Dashboard from "../components/Dashboard";
 import User from "../components/Users";
 import withAuth from "../../lib/withAuth";
+import Header from "../components/Header";
 
 const Users = () => {
   return (
     <div>
-      <h1 className="task-management">Task Management</h1>
+      <Header />
       <Dashboard />
       <User />
     </div>

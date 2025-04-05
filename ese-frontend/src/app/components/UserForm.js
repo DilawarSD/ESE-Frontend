@@ -25,14 +25,6 @@ const UserForm = ({
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   return (
     <form onSubmit={handleSubmit} className="ticket-form">
       <strong>{editingUser ? "Edit User" : "Add a New User"}</strong>

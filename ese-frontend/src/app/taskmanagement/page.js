@@ -4,11 +4,12 @@ import React from "react";
 import withAuth from "../../lib/withAuth";
 import Dashboard from "../components/Dashboard";
 import Backlog from "../components/Backlog";
+import Header from "../components/Header";
 
 const Task = () => {
   return (
     <div>
-      <h1 className="task-management">Task Management</h1>
+      <Header />
       <Dashboard />
       <Backlog />
     </div>

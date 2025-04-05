@@ -13,10 +13,8 @@ function setCSPHeaders(request) {
 
   console.log("CSP Policy applied:", cspPolicy);
 
-  // Create the response object
   const response = NextResponse.next();
 
-  // Set headers individually
   Object.entries(cspPolicy).forEach(([header, value]) => {
     response.headers.set(header, value);
   });

@@ -1,23 +1,23 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import BacklogItem from "../../../src/app/components/BacklogItem"; // Adjust the import according to the file location
+import BacklogItem from "../../../src/app/components/BacklogItem";
 
 describe("BacklogItem Component", () => {
   let mockHandleEditTicket;
   let mockHandleDeleteTicket;
   const ticket = {
     id: 1,
-    column_name: "To Do",
+    column_name: "Task 1",
     column_tasks: "Finish the project",
-    status: "Open",
+    status: "Ready",
     email: "user@example.com",
   };
   const users = [
-    { email: "user@example.com", first_name: "John", last_name: "Doe" },
+    { email: "user@example.com", first_name: "Tom", last_name: "Anderson" },
     {
       email: "anotheruser@example.com",
-      first_name: "Jane",
-      last_name: "Smith",
+      first_name: "Tom",
+      last_name: "Anderson",
     },
   ];
 
@@ -39,7 +39,7 @@ describe("BacklogItem Component", () => {
     expect(screen.getByText(ticket.column_name)).toBeInTheDocument();
     expect(screen.getByText(ticket.column_tasks)).toBeInTheDocument();
     expect(screen.getByText(`Status: ${ticket.status}`)).toBeInTheDocument();
-    expect(screen.getByText(`Assigned User: John Doe`)).toBeInTheDocument();
+    expect(screen.getByText(`Assigned User: Tom Anderson`)).toBeInTheDocument();
   });
 
   test('displays "Unassigned" if no user is assigned', () => {

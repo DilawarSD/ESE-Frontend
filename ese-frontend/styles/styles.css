@@ -48,7 +48,6 @@
   margin-top: 10px;
 }
 
-/* Styling for Edit and Delete buttons */
 .green-button {
   background-color: #4caf50;
   color: white;
@@ -111,8 +110,8 @@ input.Tasks:focus {
 }
 .container {
   display: flex;
-  justify-content: center; /* Horizontally center the button */
-  align-items: center; /* Vertically center the button */
+  justify-content: center;
+  align-items: center;
   margin-left: 130px;
 }
 /*sign-out button*/
@@ -125,9 +124,24 @@ input.Tasks:focus {
   cursor: pointer;
   margin-left: 30px;
 }
+
+/*Header*/
+header {
+  background-color: #0a0a13;
+  padding: 20px;
+  text-align: center;
+  max-height: 100vh;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: 30px;
+}
+
 /*Task management header */
 .task-management {
-  font-size: 40px;
+  font-size: 30px;
   color: #f5efef;
   text-align: center;
 }

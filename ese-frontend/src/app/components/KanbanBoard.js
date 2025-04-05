@@ -114,7 +114,7 @@ const Board = () => {
           </div>
         </div>
       )}
-
+      <br />
       <div className="kanban-board">
         {Object.entries(groupedTickets).map(([status, statusTickets]) => (
           <KanbanColumn

@@ -106,7 +106,6 @@ const Backlog = () => {
     setSortConfig({ key, direction });
   };
 
-  // Here, we use getSortedTickets first and then filter the tickets based on search term
   const filteredTickets = getFilteredTickets(
     tickets,
     users,

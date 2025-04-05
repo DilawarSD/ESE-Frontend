@@ -39,7 +39,6 @@ describe("TicketCard Component", () => {
       />
     );
 
-    // Check ticket details
     expect(screen.getByText(/Title task/i)).toBeInTheDocument();
     expect(screen.getByText(/Task description/i)).toBeInTheDocument();
     expect(screen.getByText(/Assigned to: Leon Kennedy/i)).toBeInTheDocument();
