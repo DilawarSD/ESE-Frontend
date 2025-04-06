@@ -17,13 +17,17 @@ const Auth = () => {
       result = await supabase.auth.signInWithPassword({ email, password });
     }
 
-    setMessage(
-      result.error
-        ? result.error.message
-        : isSignUp
-        ? "Check your email for confirmation!"
-        : "Signed in successfully!"
-    );
+    if (result.error) {
+      setMessage(result.error.message);
+    } else if (isSignUp) {
+      if (result.data?.user?.identities?.length === 0) {
+        setMessage("Account already exists. Please sign in.");
+      } else {
+        setMessage("Check your email for confirmation!");
+      }
+    } else {
+      setMessage("Signed in successfully!");
+    }
 
     if (!isSignUp && !result.error) {
       window.location.href = "/home";

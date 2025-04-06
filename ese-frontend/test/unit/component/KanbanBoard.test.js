@@ -174,7 +174,7 @@ describe("KanbanBoard Component", () => {
     fireEvent.click(submitButton);
 
     expect(
-      screen.getByText("Please fill in the title before submitting.")
+      screen.getByText("Please fill in 'Title' before adding a ticket.")
     ).toBeInTheDocument();
   });
 

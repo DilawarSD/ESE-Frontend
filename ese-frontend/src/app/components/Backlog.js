@@ -48,7 +48,7 @@ const Backlog = () => {
     e.preventDefault();
     setError("");
     if (!newTicket.column_name.trim()) {
-      setError("Please fill in title before submitting.");
+      setError("Please fill in 'Title' before adding a ticket.");
       return;
     }
 
