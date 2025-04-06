@@ -49,7 +49,7 @@ const Board = () => {
     setError("");
 
     if (!editingTicket || !editingTicket.column_name.trim()) {
-      setError("Please fill in the title before submitting.");
+      setError("Please fill in 'Title' before adding a ticket.");
       console.log("Error set:", error);
       return;
     }
