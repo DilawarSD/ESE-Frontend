@@ -56,6 +56,7 @@ User Authentication
 - The purpose of this is to make sure we have a secure login, registration. This is by when signing up an email will be sent by supabase for you to accept to which will allow you to sign in with the same email and password.
 - This can be found in my src/app/components/Sign.js file.
 - Main component for this file is a authentication form that needs to be filled in by entering an email and password and a supabase auth intergrating that connects to the supabase organisation that is able to sign in.
+- In this sign.js component I use another component within this file called supabaseClient.js which is located in my lib folder which makes the connection to sign up with supabase.  
 
 Kanban board
 - The purpose of the kanban board is to display the tickets in the correct column.
