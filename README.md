@@ -44,6 +44,15 @@ Deployment
 - git clone repo
 - cd ese-frontend
 - npm install
+
+- Configure this to your environment variables:
+
+NEXT_PUBLIC_SUPABASE_URL=https://krgmdbikoraoeiuodjtx.supabase.co
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtyZ21kYmlrb3Jhb2VpdW9kanR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3ODEwMzIsImV4cCI6MjA1NzM1NzAzMn0.q03sXiGl7ce3OhVVLMQNcmhmlw0kl4AIM8SomNUd-OY
+
+CSRF_SECRET=ghsysbhdsb
+
 - npm run dev to run the application 
 - npm test to run the unit tests
 
