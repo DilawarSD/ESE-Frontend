@@ -7,8 +7,8 @@ import {
   getUsers,
 } from "../../lib/server";
 import Search from "../components/Search";
-import BacklogForm from "./BacklogForm";
-import BacklogList from "./BacklogList";
+import BacklogForm from "../components/BacklogForm";
+import BacklogList from "../components/BacklogList";
 import { getFilteredTickets } from "../../utils/ticketUtils";
 
 const Backlog = () => {

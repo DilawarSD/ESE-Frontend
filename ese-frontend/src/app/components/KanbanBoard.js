@@ -5,14 +5,14 @@ import {
   deleteTicket,
   getUsers,
 } from "../../lib/server";
-import TicketForm from "./TicketForm";
-import KanbanColumn from "./KanbanColumn";
+import TicketForm from "../components/TicketForm";
+import KanbanColumn from "../components/KanbanColumn";
 import {
   handleDragStart,
   handleDragEnd,
   handleDragOver,
   handleDrop,
-} from "./DragAndDrop";
+} from "../components/DragAndDrop";
 
 const Board = () => {
   const [tickets, setTickets] = useState([]);
