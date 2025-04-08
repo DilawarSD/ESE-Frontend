@@ -44,20 +44,21 @@ Deployment
 - git clone repo
 - cd ese-frontend
 - npm install
-
 - Configure this to your environment variables:
 
-NEXT_PUBLIC_SUPABASE_URL=https://krgmdbikoraoeiuodjtx.supabase.co
-
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtyZ21kYmlrb3Jhb2VpdW9kanR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3ODEwMzIsImV4cCI6MjA1NzM1NzAzMn0.q03sXiGl7ce3OhVVLMQNcmhmlw0kl4AIM8SomNUd-OY
-
-CSRF_SECRET=ghsysbhdsb
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+CSRF_SECRET=your_csrf_secret
 
 - npm run dev to run the application 
 - npm test to run the unit tests
 
 Backend repo ese-backend 
-- just need to do npm install as supabase is always running so no need for any commands to be running. 
+- just need to do npm install as supabase is always running so no need for any commands to be running.
+- configure this to your enviroment variables:
+
+SUPABASE_SERVICE_ROLE_KEY= your_service_role_key
+SUPABASE_URL=your_supabase_url
 
 ## Feature overview 
 
