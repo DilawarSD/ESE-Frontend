@@ -50,9 +50,11 @@ The main goal is to create a secure, scalable task management platform for manag
 - npm install
 - Configure this to your environment variables:
 
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-CSRF_SECRET=your_csrf_secret
+**NEXT_PUBLIC_SUPABASE_URL=your_supabase_url**
+
+**NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key**
+
+**CSRF_SECRET=your_csrf_secret**
 
 - npm run dev to run the application 
 - npm test to run the unit tests
@@ -63,8 +65,9 @@ Backend repo ese-backend
 - npm install
 - configure this to your enviroment variables:
 
-SUPABASE_SERVICE_ROLE_KEY= your_service_role_key
-SUPABASE_URL=your_supabase_url
+**SUPABASE_SERVICE_ROLE_KEY= your_service_role_key**
+
+**SUPABASE_URL=your_supabase_url**
 
 ## Feature overview 
 
