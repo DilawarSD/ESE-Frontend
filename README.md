@@ -44,6 +44,8 @@ The main goal is to create a secure, scalable task management platform for manag
 
 
 ## Installation:
+
+Frontend repo ese-frontend
 - node.js needs to be installed
 - git clone repo
 - cd ese-frontend
