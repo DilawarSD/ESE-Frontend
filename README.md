@@ -50,9 +50,9 @@ The main goal is to create a secure, scalable task management platform for manag
 - npm install
 - Configure this to your environment variables:
 
-**NEXT_PUBLIC_SUPABASE_URL=your_supabase_url**
+**NEXT_PUBLIC_SUPABASE_URL=your_project_url**
 
-**NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key**
+**NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key**
 
 **CSRF_SECRET=your_csrf_secret**
 
