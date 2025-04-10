@@ -33,7 +33,7 @@ The main goal is to create a secure, scalable task management platform for manag
 
 **Security:**
 - Implemented CSRF protection on all methods.
-- Applied comprehensive content security policy headers to help prevent vulnerabilities to occur on the app such as XSS protection and CSP headers in my middleware file. I used the following documentations for [XSS](https://vercel.com/guides/understanding-xss-attacks) and [CSP](https://nextjs.org/docs/pages/building-your-application/configuring/content-security-policy) to be able to implement it into my middleware.js file.  
+- Applied comprehensive content security policy headers to help prevent vulnerabilities to occur on the app such as XSS protection and CSP headers in my middleware file. I used the following documentations for [XSS](https://vercel.com/guides/understanding-xss-attacks) and [CSP](https://nextjs.org/docs/pages/building-your-application/configuring/content-security-policy) to be able to implement it into my middleware.js file. Also in my middleware file we have sanitising for URL request to also prevent attacks from happening. 
 - Secured authentication using supabase authentication which includes JWT and password hashing that is included in supabase.
 - Protecting unauthorised access by making sure it prevents access unless they are signed in by redirecting the unauthorised users back to the sign in page.
 - Preventing my environment variables from being exposed showcasing the values that will allow access to the application and supabase. Adding env to gitignore protects the envs from being shown on the frontend repo and backend repo for the public to see. 
