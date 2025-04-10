@@ -4,7 +4,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* Parent container */
 .kanban-board {
   display: flex;
   justify-content: center;
@@ -80,7 +79,6 @@
   color: black;
 }
 
-/* Styling the inputs */
 input.Title,
 input.Tasks {
   background-color: white;
@@ -125,7 +123,6 @@ input.Tasks:focus {
   margin-left: 30px;
 }
 
-/*Header*/
 header {
   background-color: #0a0a13;
   padding: 20px;
@@ -146,7 +143,6 @@ header {
   text-align: center;
 }
 
-/* Styling the container */
 .auth-container {
   display: flex;
   flex-direction: column;
@@ -157,13 +153,11 @@ header {
   font-family: Arial, sans-serif;
 }
 
-/* Heading style */
 .auth-container h2 {
   font-size: 24px;
   color: #f5efef;
 }
 
-/* Styling the form */
 .auth-form {
   background-color: rgb(10, 8, 8);
   padding: 30px;
@@ -173,7 +167,6 @@ header {
   max-width: 400px;
 }
 
-/* Styling input fields */
 .auth-input {
   background-color: white;
   color: #333;
@@ -191,7 +184,6 @@ header {
   background-color: #f9f9f9;
 }
 
-/* Styling submit button */
 .auth-button {
   background-color: #4caf50;
   color: white;
@@ -208,7 +200,6 @@ header {
   background-color: #45a049;
 }
 
-/* Styling error or success message */
 .auth-message {
   color: red;
   font-size: 14px;
