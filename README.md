@@ -105,7 +105,7 @@ Within this Backlog.js component I have other components that are being used in 
   1. BacklogForm.js - This where you are able to input to create a ticket.
   2. BacklogList.js - This displays the tickets where you have the buttons displayed with edit and delete.
   3. ticketUtils.js - This is a utils file that has sort and search functionality.
-  4. Search.js -displays the search bar and sort options.
+  4. Search.js - Displays the search bar and sort options.
   5. Server.js -This is my server.js where it is able to make the actions of getTickets to where we can display the tickets, addTicket which is where we can add the tickets, updateTickets and deleteTickets where you can edit or delete tickets that were created and getUsers which is to display the users.  This file connects to the supabase database through the API folder by fetching to /api/tickets, which contains the ticket and user routes, enabling these actions. 
 
 **User** 
@@ -124,5 +124,5 @@ Within this User.js component I have other components being used in this file wh
 
 
 ## Future improvements
-One key area for future improvement I would like to implement is user roles. Creating user roles so all users that have access to the board can only view users and not add, edit or delete them. Only the manager can add, edit and delete users. To acheive this I would need to create a new board to where both boards share the same database but one board will be for users that will prevent them from having all the features of the app and can only view the users not allowing them to edit of delete them. Whereas, for managers the application I built will have access to all the features being available for them. 
+One key area for future improvement I would like to implement is user roles. Creating user roles so all users that have access to the board can only view users and not add, edit or delete them. Only the manager can add, edit and delete users. To achieve this I would need to create a new board to where both boards share the same database but one board will be for users that will prevent them from having all the features of the app and can only view the users not allowing them to edit of delete them. Whereas, for managers the application I built will have access to all the features being available for them. 
 
