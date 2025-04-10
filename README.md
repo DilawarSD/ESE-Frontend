@@ -32,7 +32,7 @@ The main goal is to create a secure, scalable task management platform for manag
 
 
 **Security:**
-- Implemented CSRF protection on all methods.
+- Implemented CSRF protection on all GET, POST, PUT and DELETE methods when requesting these actions.
 - Applied comprehensive content security policy headers to help prevent vulnerabilities to occur on the app such as XSS protection and CSP headers in my middleware file. I used the following documentations for [XSS](https://vercel.com/guides/understanding-xss-attacks) and [CSP](https://nextjs.org/docs/pages/building-your-application/configuring/content-security-policy) to be able to implement it into my middleware.js file. Also in my middleware file we have sanitising for URL request to also prevent attacks from happening. 
 - Secured authentication using supabase authentication which includes JWT and password hashing that is included in supabase. Documentation I used to find this is here [JWT](https://supabase.com/docs/guides/auth/jwts) and [password hashing](https://supabase.com/docs/guides/auth/password-security).
 - Protecting unauthorised access by making sure it prevents access unless they are signed in by redirecting the unauthorised users back to the sign in page.
@@ -40,8 +40,8 @@ The main goal is to create a secure, scalable task management platform for manag
 
 **Deployment:** 
 - Deployed the Kanban application on Render.
-- Use the environment variables for secure management and being able to deploy safely.
-- Implemented security headers for production such as CSRF tokens being applied and CSP headers being applied.
+- Environment variables were securely managed and being able to deploy the application safely without exposing my environment variables.
+
 
 ## Installation:
 - node.js needs to be installed
